@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:jember_wisataku/view/public/homepage.dart';
+import 'package:jember_wisataku/pages/public/buttonnav.dart';
+import 'package:jember_wisataku/pages/splash.dart';
+import 'package:jember_wisataku/pages/public/homepage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,12 +13,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: homepage(),
+      home: buttonNav(),
     );
   }
 }

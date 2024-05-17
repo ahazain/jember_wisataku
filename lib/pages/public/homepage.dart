@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
@@ -13,16 +12,18 @@ class homepage extends StatefulWidget {
 
 class _homepageState extends State<homepage> {
   List _listdata = [];
+  // bool _isloading = true;
 
   Future _getdata() async {
     try {
       final respone = await http
-          .get(Uri.parse('http://10.132.1.83/wisata_jember/backend/read.php'));
+          .get(Uri.parse('http://192.168.1.29/wisata_jember/backend/read.php'));
       if (respone.statusCode == 200) {
         print(respone.body);
         final data = jsonDecode(respone.body);
         setState(() {
           _listdata = data;
+          // _isloading = false;
         });
       }
     } catch (e) {
@@ -57,3 +58,5 @@ class _homepageState extends State<homepage> {
     );
   }
 }
+
+//http guna mengkoneksikan flutter dengan APIphp ke mysql
