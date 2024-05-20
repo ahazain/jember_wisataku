@@ -44,9 +44,17 @@ class AppWidget {
   static TextStyle head4TextFieldStyle() {
     return TextStyle(
         color: Color.fromARGB(255, 226, 226, 226),
-        fontFamily: 'Krona',
+        fontFamily: 'Poppins',
         fontSize: 15.0,
-        fontWeight: FontWeight.w900);
+        fontWeight: FontWeight.w500);
+  }
+
+  static TextStyle labelbutton() {
+    return TextStyle(
+        color: Color.fromARGB(255, 226, 226, 226),
+        fontFamily: 'Poppins',
+        fontSize: 13.0,
+        fontWeight: FontWeight.w300);
   }
 
   static TextStyle umumTextFieldStyle() {

@@ -3,6 +3,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:jember_wisataku/pages/public/acara_tahunan.dart';
 import 'package:jember_wisataku/pages/public/akun.dart';
 import 'package:jember_wisataku/pages/public/home.dart';
+import 'package:jember_wisataku/widget/widget_support.dart';
 
 class buttonNav extends StatefulWidget {
   const buttonNav({Key? key}) : super(key: key);
@@ -31,19 +32,32 @@ class _ButtonNavState extends State<buttonNav> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: CurvedNavigationBar(
-        height: 50,
-        color: Color(0xFF0EF11A),
-        backgroundColor: Color.fromARGB(22, 255, 255, 255),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentTabIndex,
         onTap: (int index) {
           setState(() {
             currentTabIndex = index;
           });
         },
+        backgroundColor: Color.fromARGB(255, 200, 255, 203), // Warna hijau
+        selectedItemColor: Color.fromARGB(255, 7, 77, 18),
+
+        unselectedItemColor: Color.fromARGB(255, 0, 0, 0),
+        selectedLabelStyle: AppWidget.labelbutton(),
+        unselectedLabelStyle: AppWidget.labelbutton(),
         items: [
-          Icon(Icons.home),
-          Icon(Icons.event),
-          Icon(Icons.person),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.event),
+            label: 'Event',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Akun',
+          ),
         ],
       ),
       body: pages[currentTabIndex],

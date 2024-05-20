@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:jember_wisataku/pages/login.dart';
 import 'package:jember_wisataku/pages/public/homepage.dart';
+import 'package:jember_wisataku/widget/widget_support.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -75,7 +78,7 @@ class _RegisterState extends State<Register> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => homepage(),
+                        builder: (context) => login(),
                       ),
                     );
                   },
@@ -90,7 +93,7 @@ class _RegisterState extends State<Register> {
                   ),
                   child: Text(
                     "Daftar",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: AppWidget.head4TextFieldStyle(),
                   ),
                 ),
                 SizedBox(height: 10),
@@ -128,11 +131,11 @@ class _RegisterState extends State<Register> {
   }
 }
 
-class ButtonNav extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(child: Text('Button Navigation Page')),
-    );
-  }
-}
+// class ButtonNav extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Center(child: Text('Button Navigation Page')),
+//     );
+//   }
+// }

@@ -16,8 +16,8 @@ class _homepageState extends State<homepage> {
 
   Future _getdata() async {
     try {
-      final respone = await http
-          .get(Uri.parse('http://192.168.1.29/wisata_jember/backend/read.php'));
+      final respone = await http.get(
+          Uri.parse('http://10.132.12.115/wisata_jember/backend/read.php'));
       if (respone.statusCode == 200) {
         print(respone.body);
         final data = jsonDecode(respone.body);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jember_wisataku/pages/public/buttonnav.dart';
 import 'package:jember_wisataku/pages/public/home.dart';
 import 'package:jember_wisataku/pages/public/homepage.dart';
 import 'package:jember_wisataku/pages/register.dart';
@@ -76,7 +77,7 @@ class _loginState extends State<login> {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => HomePage(),
+                      builder: (context) => buttonNav(),
                     ),
                   );
                 },

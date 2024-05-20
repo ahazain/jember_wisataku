@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jember_wisataku/pages/admin/wisataAdmin.dart';
 
-
 class homeAdmin extends StatefulWidget {
   final String title;
 
@@ -15,7 +14,7 @@ class _homeAdminState extends State<homeAdmin> {
   // Data untuk setiap card
   final List<Map<String, String>> cardData = [
     {
-      'image': 'assets/Sunset_papuma_beach.jpg',
+      'image': 'assets/images/Sunset_papuma_beach.jpg',
       'title': 'Pantai Papuma',
     },
     {
