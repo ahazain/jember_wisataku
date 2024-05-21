@@ -27,7 +27,7 @@ class AppWidget {
 
   static TextStyle head2TextFieldStyle() {
     return TextStyle(
-        color: Color.fromARGB(255, 216, 216, 216),
+        color: Color.fromARGB(255, 255, 255, 255),
         fontFamily: 'Krona',
         fontSize: 32.0,
         fontWeight: FontWeight.w900);
@@ -35,15 +35,15 @@ class AppWidget {
 
   static TextStyle head3TextFieldStyle() {
     return TextStyle(
-        color: Color.fromARGB(255, 107, 107, 107),
-        fontFamily: 'Krona',
-        fontSize: 32.0,
-        fontWeight: FontWeight.w900);
+        color: Color.fromARGB(255, 255, 255, 255),
+        fontFamily: 'Poppins',
+        fontSize: 30.0,
+        fontWeight: FontWeight.w100);
   }
 
   static TextStyle head4TextFieldStyle() {
     return TextStyle(
-        color: Color.fromARGB(255, 226, 226, 226),
+        color: Color.fromARGB(255, 255, 255, 255),
         fontFamily: 'Poppins',
         fontSize: 15.0,
         fontWeight: FontWeight.w500);
@@ -57,6 +57,14 @@ class AppWidget {
         fontWeight: FontWeight.w300);
   }
 
+  static TextStyle styleNormal() {
+    return TextStyle(
+        color: Color.fromARGB(255, 226, 226, 226),
+        fontFamily: 'Poppins',
+        fontSize: 12.0,
+        fontWeight: FontWeight.normal);
+  }
+
   static TextStyle umumTextFieldStyle() {
     return TextStyle(
         color: Colors.black,
@@ -67,7 +75,7 @@ class AppWidget {
 
   static TextStyle leghtTextFieldStyle() {
     return TextStyle(
-        color: const Color.fromARGB(255, 67, 67, 67),
+        color: Color.fromARGB(255, 15, 15, 15),
         fontFamily: 'Poppins',
         fontSize: 14.0,
         fontWeight: FontWeight.w500);

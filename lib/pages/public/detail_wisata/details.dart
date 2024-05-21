@@ -1,5 +1,6 @@
-import "package:flutter/material.dart";
-import "package:jember_wisataku/widget/widget_support.dart";
+import 'package:flutter/material.dart';
+import 'package:jember_wisataku/pages/public/detail_wisata/rating.dart';
+import 'package:jember_wisataku/widget/widget_support.dart';
 
 class details extends StatefulWidget {
   const details({super.key});
@@ -9,6 +10,13 @@ class details extends StatefulWidget {
 }
 
 class _detailsState extends State<details> {
+  List<int> ratings = [5, 4, 5, 3, 4]; // Contoh rating dari pengguna
+
+  double get averageRating {
+    if (ratings.isEmpty) return 0.0;
+    return ratings.reduce((a, b) => a + b) / ratings.length;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,6 +40,34 @@ class _detailsState extends State<details> {
                   height: 200,
                 ),
               ),
+              SizedBox(height: 10.0),
+              Container(
+                margin: EdgeInsets.only(top: 10.0, left: 18.0, right: 20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      children: [
+                        Rating(rating: averageRating.round(), size: 20),
+                        SizedBox(height: 5.0),
+                        Text(
+                          averageRating.toStringAsFixed(1),
+                          style: TextStyle(
+                              fontSize: 16.0, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        // Handle Maps action here
+                      },
+                      icon: Icon(Icons.location_on,
+                          color: Colors.red), // Assuming Maps icon is red
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 10.0),
               Container(
                 margin: EdgeInsets.only(top: 10.0, left: 18.0, right: 20.0),
                 child: Column(
@@ -47,12 +83,10 @@ class _detailsState extends State<details> {
                       style: AppWidget.leghtTextFieldStyle(),
                       textAlign: TextAlign.justify,
                     ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
+                    SizedBox(height: 20.0),
                     Text(
                       "Informasi Tiket Masuk dan Biaya Parkir:",
-                      style: AppWidget.boldTextFieldStyle(),
+                      style: AppWidget.bold2TextFieldStyle(),
                     ),
                     SizedBox(height: 10),
                     RichText(
@@ -80,26 +114,6 @@ class _detailsState extends State<details> {
                     ),
                   ],
                 ),
-              ),
-              SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      // Handle WhatsApp action here
-                    },
-                    icon: Icon(Icons.message,
-                        color: Colors.green), // Assuming WhatsApp icon is green
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      // Handle Maps action here
-                    },
-                    icon: Icon(Icons.location_on,
-                        color: Colors.red), // Assuming Maps icon is red
-                  ),
-                ],
               ),
             ],
           ),

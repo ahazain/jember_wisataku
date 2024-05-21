@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:jember_wisataku/pages/admin/akun.dart';
 import 'package:jember_wisataku/pages/admin/homeAdmin.dart';
+import 'package:jember_wisataku/pages/login.dart';
 import 'package:jember_wisataku/pages/public/akun.dart';
 import 'package:jember_wisataku/pages/public/buttonnav.dart';
 import 'package:jember_wisataku/pages/splash.dart';
@@ -15,14 +17,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      // home: Splash(),
-      home: buttonNav(),
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        // home: Splash(),
+        home: Splash());
   }
 }

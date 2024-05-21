@@ -13,211 +13,171 @@ class _acaratahunanState extends State<acaratahunan> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(
-      child: Container(
-        margin: EdgeInsets.only(top: 20.0, left: 17.0, right: 10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Event", style: AppWidget.boldTextFieldStyle()),
-            SizedBox(
-              height: 10.0,
+      backgroundColor: Color(0xFF1C1C2D),
+      body: Stack(
+        children: [
+          // Container hijau berbentuk oval yang tetap
+          Positioned(
+            top: -100,
+            left: -100,
+            child: Container(
+              width: 423,
+              height: 408,
+              decoration: ShapeDecoration(
+                color: Color(0xFF67ED38),
+                shape: OvalBorder(),
+              ),
             ),
-            Text("Kota Jember", style: AppWidget.headTextFieldStyle()),
-            SizedBox(
-              height: 10.0,
+          ),
+          Positioned(
+            top: 500,
+            left: 180,
+            child: Container(
+              width: 423,
+              height: 408,
+              decoration: ShapeDecoration(
+                color: Color(0xFF67ED38),
+                shape: OvalBorder(),
+              ),
             ),
-            Row(
+          ),
+          // Bagian yang tetap di atas
+          Positioned(
+            top: 20.0,
+            left: 17.0,
+            right: 10.0,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: TextField(
-                    style: AppWidget.umumTextFieldStyle(),
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(17.0),
-                        borderSide: BorderSide.none,
+                Text("Hi, Wisatawan", style: AppWidget.boldTextFieldStyle()),
+                SizedBox(height: 10.0),
+                Text("Jember Indah", style: AppWidget.headTextFieldStyle()),
+                SizedBox(height: 10.0),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        style: AppWidget.umumTextFieldStyle()
+                            .copyWith(color: Colors.white),
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(17.0),
+                            borderSide: BorderSide.none,
+                          ),
+                          hintText: "eg. wisata kawah ijen",
+                          hintStyle: TextStyle(
+                            color: Colors.grey,
+                          ),
+                          prefixIcon: Icon(
+                            Icons.search,
+                            color: Colors.grey,
+                          ),
+                          filled: true,
+                          fillColor: Color.fromARGB(255, 50, 50, 50),
+                        ),
                       ),
-                      hintText: "eg. wisata kawah ijen",
-                      hintStyle: TextStyle(
-                        color:
-                            Colors.grey, // Memberikan warna abu-abu pada hint
-                      ),
-                      prefixIcon: Icon(
-                        Icons.search,
-                        color: Colors
-                            .grey, // Memberikan warna abu-abu pada ikon search
-                      ),
-                      filled: true, // Mengisi latar belakang dengan warna
-                      fillColor: Color.fromARGB(
-                          255, 222, 222, 222), // Warna latar belakang
                     ),
-                  ),
+                  ],
                 ),
               ],
             ),
-            SizedBox(height: 20.0),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => detail_event()),
-                );
-              },
-              child: Center(
-                child: Stack(
+          ),
+          // Konten yang bisa di-scroll
+          Positioned.fill(
+            top: 150.0, // Berikan top padding agar tidak tertutup
+            child: SingleChildScrollView(
+              child: Container(
+                margin: EdgeInsets.only(top: 0.0, left: 17.0, right: 10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image.asset(
+                    SizedBox(height: 40.0), // Tambahkan jarak
+                    buildEventCard(
+                      context,
                       "assets/images/62ef257df3e8bcf7e477b0b5-zqZnew-scaled.jpeg",
-                      height: 218,
+                      "JVC",
                     ),
-                    Positioned(
-                      top: 150,
-                      left: 0,
-                      right: 0,
-                      child: Container(
-                        color: Color.fromARGB(82, 159, 159, 159),
-                        padding: EdgeInsets.symmetric(vertical: 20.0),
-                        child: Center(
-                          child: Text("JVC",
-                              style: AppWidget.headTextFieldStyle()),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 20.0),
-            GestureDetector(
-              onTap: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => DetailPage()),
-                // );
-              },
-              child: Center(
-                child: Stack(
-                  children: [
-                    Image.network(
+                    SizedBox(height: 20.0),
+                    buildEventCard(
+                      context,
                       "https://ryusei.co.id/cdn/shop/articles/jember-3jpg_uTCF1.jpg?v=1604717607",
-                      height: 218,
+                      "Pantai Papuma",
                     ),
-                    Positioned(
-                      top: 150,
-                      left: 0,
-                      right: 0,
-                      child: Container(
-                        color: Color.fromARGB(82, 159, 159, 159),
-                        padding: EdgeInsets.symmetric(vertical: 20.0),
-                        child: Center(
-                          child: Text("Pantai Papuma",
-                              style: AppWidget.headTextFieldStyle()),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 20.0),
-            GestureDetector(
-              onTap: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => DetailPage()),
-                // );
-              },
-              child: Center(
-                child: Stack(
-                  children: [
-                    Image.network(
+                    SizedBox(height: 20.0),
+                    buildEventCard(
+                      context,
                       "https://ryusei.co.id/cdn/shop/articles/jember-3jpg_uTCF1.jpg?v=1604717607",
-                      height: 216,
+                      "JVC",
                     ),
-                    Positioned(
-                      top: 150,
-                      left: 0,
-                      right: 0,
-                      child: Container(
-                        color: Color.fromARGB(82, 159, 159, 159),
-                        padding: EdgeInsets.symmetric(vertical: 20.0),
-                        child: Center(
-                          child: Text("JVC",
-                              style: AppWidget.headTextFieldStyle()),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 20.0),
-            GestureDetector(
-              onTap: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => DetailPage()),
-                // );
-              },
-              child: Center(
-                child: Stack(
-                  children: [
-                    Image.network(
+                    SizedBox(height: 20.0),
+                    buildEventCard(
+                      context,
                       "https://4.bp.blogspot.com/-aIV3NUiKsrk/Ul7bhmliTLI/AAAAAAAADWk/udAysmRkqrU/s1600/gbr+papuma.jpg",
-                      height: 218,
+                      "Pantai Papuma",
                     ),
-                    Positioned(
-                      top: 150,
-                      left: 0,
-                      right: 0,
-                      child: Container(
-                        color: Color.fromARGB(82, 159, 159, 159),
-                        padding: EdgeInsets.symmetric(vertical: 20.0),
-                        child: Center(
-                          child: Text("Pantai Papuma",
-                              style: AppWidget.headTextFieldStyle()),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 20.0),
-            GestureDetector(
-              onTap: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => DetailPage()),
-                // );
-              },
-              child: Center(
-                child: Stack(
-                  children: [
-                    Image.network(
+                    SizedBox(height: 20.0),
+                    buildEventCard(
+                      context,
                       "https://4.bp.blogspot.com/-aIV3NUiKsrk/Ul7bhmliTLI/AAAAAAAADWk/udAysmRkqrU/s1600/gbr+papuma.jpg",
-                      height: 218,
-                    ),
-                    Positioned(
-                      top: 150,
-                      left: 0,
-                      right: 0,
-                      child: Container(
-                        color: Color.fromARGB(82, 159, 159, 159),
-                        padding: EdgeInsets.symmetric(vertical: 20.0),
-                        child: Center(
-                          child: Text("Pantai Papuma",
-                              style: AppWidget.headTextFieldStyle()),
-                        ),
-                      ),
+                      "Pantai Papuma",
                     ),
                   ],
                 ),
               ),
             ),
-          ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildEventCard(BuildContext context, String imageUrl, String title) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => detail_event()),
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.only(top: 0.0, left: 20.0, right: 20.0),
+        child: Center(
+          child: Stack(
+            children: [
+              if (imageUrl.startsWith('http'))
+                Image.network(
+                  imageUrl,
+                  height: 218,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                )
+              else
+                Image.asset(
+                  imageUrl,
+                  height: 218,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+              Positioned(
+                top: 150,
+                left: 0,
+                right: 0,
+                child: Container(
+                  color: Color.fromARGB(82, 159, 159, 159),
+                  padding: EdgeInsets.symmetric(vertical: 20.0),
+                  child: Center(
+                    child: Text(
+                      title,
+                      style: AppWidget.headTextFieldStyle()
+                          .copyWith(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-    ));
+    );
   }
 }

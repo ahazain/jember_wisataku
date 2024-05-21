@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:jember_wisataku/pages/login.dart';
 import 'package:jember_wisataku/pages/register.dart';
 import 'package:jember_wisataku/widget/widget_support.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -26,7 +27,7 @@ class _SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF344D3E),
+      backgroundColor: Color(0xFF1C1C2D),
       body: Container(
         child: Center(
           child: Column(
@@ -36,9 +37,16 @@ class _SplashState extends State<Splash> {
                 'assets/images/logo.png',
                 height: 250,
               ),
-              Text(
-                'Jember Wisata',
-                style: AppWidget.head2TextFieldStyle(),
+              SizedBox(height: 20),
+              AnimatedTextKit(
+                animatedTexts: [
+                  WavyAnimatedText(
+                    'Jember Wisata',
+                    textStyle: AppWidget.head2TextFieldStyle(),
+                    speed: Duration(milliseconds: 200),
+                  ),
+                ],
+                isRepeatingAnimation: true,
               ),
             ],
           ),

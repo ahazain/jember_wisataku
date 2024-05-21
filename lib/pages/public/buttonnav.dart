@@ -39,10 +39,10 @@ class _ButtonNavState extends State<buttonNav> {
             currentTabIndex = index;
           });
         },
-        backgroundColor: Color.fromARGB(255, 200, 255, 203), // Warna hijau
-        selectedItemColor: Color.fromARGB(255, 7, 77, 18),
+        backgroundColor: Color.fromARGB(255, 28, 28, 45), // Warna hijau
+        selectedItemColor: Color.fromARGB(255, 0, 220, 33),
 
-        unselectedItemColor: Color.fromARGB(255, 0, 0, 0),
+        unselectedItemColor: Color.fromARGB(255, 255, 255, 255),
         selectedLabelStyle: AppWidget.labelbutton(),
         unselectedLabelStyle: AppWidget.labelbutton(),
         items: [

@@ -82,26 +82,6 @@ class _detail_eventState extends State<detail_event> {
                   ],
                 ),
               ),
-              SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      // Handle WhatsApp action here
-                    },
-                    icon: Icon(Icons.message,
-                        color: Colors.green), // Assuming WhatsApp icon is green
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      // Handle Maps action here
-                    },
-                    icon: Icon(Icons.location_on,
-                        color: Colors.red), // Assuming Maps icon is red
-                  ),
-                ],
-              ),
             ],
           ),
         ),
