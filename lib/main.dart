@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:jember_wisataku/pages/admin/akun.dart';
-import 'package:jember_wisataku/pages/admin/homeAdmin.dart';
-import 'package:jember_wisataku/pages/login.dart';
-import 'package:jember_wisataku/pages/public/akun.dart';
-import 'package:jember_wisataku/pages/public/buttonnav.dart';
-import 'package:jember_wisataku/pages/splash.dart';
-import 'package:jember_wisataku/pages/public/homepage.dart';
+import 'package:jember_wisataku/View/admin/akun.dart';
+import 'package:jember_wisataku/View/admin/homeAdmin.dart';
+import 'package:jember_wisataku/View/home.dart';
+import 'package:jember_wisataku/View/login.dart';
+import 'package:jember_wisataku/View/akun.dart';
+import 'package:jember_wisataku/View/buttonnav.dart';
+import 'package:jember_wisataku/View/splash.dart';
+import 'package:jember_wisataku/View/homepage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,6 +25,6 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         // home: Splash(),
-        home: Splash());
+        home: buttonNav());
   }
 }

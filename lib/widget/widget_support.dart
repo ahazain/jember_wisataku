@@ -27,7 +27,7 @@ class AppWidget {
 
   static TextStyle head2TextFieldStyle() {
     return TextStyle(
-        color: Color.fromARGB(255, 255, 255, 255),
+        color: Color.fromARGB(255, 49, 49, 49),
         fontFamily: 'Krona',
         fontSize: 32.0,
         fontWeight: FontWeight.w900);
@@ -59,7 +59,7 @@ class AppWidget {
 
   static TextStyle styleNormal() {
     return TextStyle(
-        color: Color.fromARGB(255, 226, 226, 226),
+        color: Color.fromARGB(255, 49, 49, 49),
         fontFamily: 'Poppins',
         fontSize: 12.0,
         fontWeight: FontWeight.normal);
