@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:jember_wisataku/View/login.dart';
+import 'package:jember_wisataku/View/publik_guest/akun_guest.dart';
+import 'package:jember_wisataku/View/publik_guest/button_guest.dart';
+
 import 'package:jember_wisataku/widget/widget_support.dart';
 
 class akun_admin extends StatefulWidget {
@@ -38,7 +40,11 @@ class _akun_adminState extends State<akun_admin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 28, 28, 45),
+      backgroundColor: Color.fromARGB(255, 246, 246, 248),
+      appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 246, 246, 248),
+        title: Text('Profil', style: AppWidget.head3TextFieldStyle()),
+      ),
       body: SingleChildScrollView(
         child: Center(
           child: Padding(
@@ -52,6 +58,19 @@ class _akun_adminState extends State<akun_admin> {
                       backgroundImage: NetworkImage(
                           'https://media.istockphoto.com/id/1131348804/id/vektor/ikon-pengisian-linier-wanita-bisnis-vector-gadis-bisnis-avatar-gambar-profil-gambar-garis.jpg?s=170667a&w=0&k=20&c=ixi0KyyovtLthGlo4MCephen0iZZLnF0pj8twL7qEmE='),
                     ),
+                    // Uncomment this if you want to use the edit icon on the avatar
+                    // Positioned(
+                    //   bottom: 0,
+                    //   right: 0,
+                    //   child: CircleAvatar(
+                    //     backgroundColor: Colors.white,
+                    //     radius: 20,
+                    //     child: IconButton(
+                    //       icon: Icon(Icons.edit, color: Color(0xFF44DB3C)),
+                    //       onPressed: _toggleEdit,
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
                 SizedBox(height: 20),
@@ -91,7 +110,7 @@ class _akun_adminState extends State<akun_admin> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => login(),
+                        builder: (context) => button_guest(),
                       ),
                     );
                   },
@@ -125,9 +144,9 @@ class _akun_adminState extends State<akun_admin> {
       controller: controller,
       enabled: isEditing,
       decoration: InputDecoration(
-        prefixIcon: Icon(icon, color: Color.fromARGB(255, 28, 28, 45)),
+        prefixIcon: Icon(icon, color: Color(0xFF1C1C2D)),
         filled: true,
-        fillColor: Colors.grey[200],
+        fillColor: const Color.fromARGB(255, 223, 223, 223),
         contentPadding: EdgeInsets.all(15),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),

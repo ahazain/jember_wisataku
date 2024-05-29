@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:jember_wisataku/View/admin/akun.dart';
-import 'package:jember_wisataku/View/admin/homeAdmin.dart';
-import 'package:jember_wisataku/View/home.dart';
-import 'package:jember_wisataku/View/login.dart';
-import 'package:jember_wisataku/View/akun.dart';
-import 'package:jember_wisataku/View/buttonnav.dart';
+import 'package:jember_wisataku/View/admin/akun_admin.dart';
+import 'package:jember_wisataku/View/admin/home_admin.dart';
+import 'package:jember_wisataku/View/publik_guest/akun_guest.dart';
+import 'package:jember_wisataku/View/publik_guest/home.dart';
+
+import 'package:jember_wisataku/View/publik_regis/akun_regis.dart';
+import 'package:jember_wisataku/View/publik_regis/button_regis.dart';
 import 'package:jember_wisataku/View/splash.dart';
 import 'package:jember_wisataku/View/homepage.dart';
+import 'package:jember_wisataku/View/publik_guest/button_guest.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,6 +27,6 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         // home: Splash(),
-        home: buttonNav());
+        home: Splash());
   }
 }

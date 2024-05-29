@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class DetailWisata extends StatefulWidget {
-  const DetailWisata({Key? key}) : super(key: key);
+class input_wisata extends StatefulWidget {
+  const input_wisata({Key? key}) : super(key: key);
 
   @override
-  _DetailWisataFormState createState() => _DetailWisataFormState();
+  _input_wisataFormState createState() => _input_wisataFormState();
 }
 
-class _DetailWisataFormState extends State<DetailWisata> {
+class _input_wisataFormState extends State<input_wisata> {
   final _formKey = GlobalKey<FormState>();
 
   String namaTempat = '';
@@ -25,7 +25,12 @@ class _DetailWisataFormState extends State<DetailWisata> {
       appBar: AppBar(
         title: const Text("Jember Wisata"),
         centerTitle: true,
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.white,
+        elevation: 1,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
       ),
       body: SingleChildScrollView(
         child: Form(
@@ -35,66 +40,51 @@ class _DetailWisataFormState extends State<DetailWisata> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Nama Tempat',
-                  ),
+                _buildTextField(
+                  labelText: 'Nama Tempat',
                   onSaved: (value) {
                     namaTempat = value ?? '';
                   },
                 ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Kategori',
-                  ),
+                _buildTextField(
+                  labelText: 'Kategori',
                   onSaved: (value) {
                     kategori = value ?? '';
                   },
                 ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'URL Foto',
-                  ),
+                _buildTextField(
+                  labelText: 'URL Foto',
                   onSaved: (value) {
                     foto = value ?? '';
                   },
                 ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Deskripsi',
-                  ),
+                _buildTextField(
+                  labelText: 'Deskripsi',
                   onSaved: (value) {
                     deskripsi = value ?? '';
                   },
+                  maxLines: 5, // Makes the field larger for description
                 ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Maps URL',
-                  ),
+                _buildTextField(
+                  labelText: 'URL Maps',
                   onSaved: (value) {
                     maps = value ?? '';
                   },
                 ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Jam Operasional',
-                  ),
+                _buildTextField(
+                  labelText: 'Jam Operasional',
                   onSaved: (value) {
                     jamOperasional = value ?? '';
                   },
                 ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Harga Tiket',
-                  ),
+                _buildTextField(
+                  labelText: 'Harga Tiket',
                   onSaved: (value) {
                     hargaTiket = value ?? '';
                   },
                 ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Menu',
-                  ),
+                _buildTextField(
+                  labelText: 'Menu',
                   onSaved: (value) {
                     menu = value ?? '';
                   },
@@ -120,11 +110,16 @@ class _DetailWisataFormState extends State<DetailWisata> {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
-                        minimumSize: const Size(100, 50),
+                        backgroundColor: const Color.fromARGB(255, 0, 220, 33),
+                        minimumSize: const Size(double.infinity, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
                       ),
-                      child: const Text('Simpan',
-                          style: TextStyle(color: Colors.black)),
+                      child: const Text(
+                        'Simpan',
+                        style: TextStyle(color: Colors.black),
+                      ),
                     ),
                     const SizedBox(height: 10),
                     ElevatedButton(
@@ -132,11 +127,16 @@ class _DetailWisataFormState extends State<DetailWisata> {
                         // Logika apabila batal
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
-                        minimumSize: const Size(500, 50),
+                        backgroundColor: const Color(0xFFFF0000),
+                        minimumSize: const Size(double.infinity, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
                       ),
-                      child: const Text('Batal',
-                          style: TextStyle(color: Colors.black)),
+                      child: const Text(
+                        'Batal',
+                        style: TextStyle(color: Colors.black),
+                      ),
                     ),
                   ],
                 ),
@@ -144,6 +144,31 @@ class _DetailWisataFormState extends State<DetailWisata> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildTextField({
+    required String labelText,
+    required void Function(String?) onSaved,
+    int maxLines = 1,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextFormField(
+        decoration: InputDecoration(
+          labelText: labelText,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            borderSide: BorderSide.none,
+          ),
+          filled: true,
+          fillColor: Colors.grey[300],
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
+        ),
+        onSaved: onSaved,
+        maxLines: maxLines,
       ),
     );
   }

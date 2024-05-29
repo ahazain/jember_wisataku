@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:jember_wisataku/View/login.dart';
+import 'package:jember_wisataku/View/publik_guest/akun_guest.dart';
+import 'package:jember_wisataku/View/publik_guest/button_guest.dart';
+
 import 'package:jember_wisataku/widget/widget_support.dart';
 
-class akun extends StatefulWidget {
-  const akun({Key? key}) : super(key: key);
+class akun_regis extends StatefulWidget {
+  const akun_regis({Key? key}) : super(key: key);
 
   @override
-  State<akun> createState() => _akunState();
+  State<akun_regis> createState() => _akun_regisState();
 }
 
-class _akunState extends State<akun> {
+class _akun_regisState extends State<akun_regis> {
   bool _isEditing = false;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -108,7 +110,7 @@ class _akunState extends State<akun> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => login(),
+                        builder: (context) => button_guest(),
                       ),
                     );
                   },

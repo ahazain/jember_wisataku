@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:jember_wisataku/View/admin/akun.dart';
-import 'package:jember_wisataku/View/admin/wisataAdmin.dart';
-import 'package:jember_wisataku/View/login.dart';
+
+import 'package:jember_wisataku/View/admin/input_wisata.dart';
+import 'package:jember_wisataku/View/publik_guest/button_guest.dart';
+
 import 'package:jember_wisataku/widget/widget_support.dart';
 
-class homeAdmin extends StatefulWidget {
+class home_admin extends StatefulWidget {
   final String title;
 
-  const homeAdmin({super.key, required this.title});
+  const home_admin({super.key, required this.title});
 
   @override
-  State<homeAdmin> createState() => _homeAdminState();
+  State<home_admin> createState() => _home_adminState();
 }
 
-class _homeAdminState extends State<homeAdmin> {
+class _home_adminState extends State<home_admin> {
   int _currentIndex = 0; // Track the current selected index
 
   final List<Widget> _pages = [
@@ -26,35 +27,32 @@ class _homeAdminState extends State<homeAdmin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 28, 28, 45),
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(_titles[_currentIndex], // Dynamically change title
-            style:
-                AppWidget.head3TextFieldStyle().copyWith(color: Colors.white)),
-        backgroundColor: const Color.fromARGB(255, 28, 28, 45),
+        title: Text(
+          _titles[_currentIndex], // Dynamically change title
+          style: AppWidget.head3TextFieldStyle().copyWith(color: Colors.black),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.white,
       ),
-      body: _pages[_currentIndex], // Display the currently selected page
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (int index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        backgroundColor: Color.fromARGB(255, 28, 28, 45), // Warna hijau
-        selectedItemColor: Color.fromARGB(255, 0, 220, 33),
-
-        unselectedItemColor: Color.fromARGB(255, 255, 255, 255),
-        selectedLabelStyle: AppWidget.labelbutton(),
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Akun',
-          ),
+      body: Stack(
+        children: [
+          _pages[_currentIndex], // Display the currently selected page
+          if (_currentIndex == 0)
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: FloatingActionButton(
+                  onPressed: () {
+                    // Add your onPressed code here!
+                  },
+                  child: Icon(Icons.add),
+                  backgroundColor: Color.fromARGB(255, 0, 220, 33),
+                ),
+              ),
+            ),
         ],
       ),
     );
@@ -71,12 +69,32 @@ class HomePageContent extends StatelessWidget {
         'title': 'Pantai Papuma',
       },
       {
-        'image': 'assets/images/Sunset_papuma_beach.jpg',
-        'title': 'Gunung Bromo',
+        'image': 'assets/images/gudeg.jpg',
+        'title': 'Gudeg Lumintu',
       },
       {
-        'image': 'assets/images/Sunset_papuma_beach.jpg',
+        'image': 'assets/images/situs_duplang.jpg',
         'title': 'Situs Duplang',
+      },
+      {
+        'image': 'assets/images/gunung_gambir.jpg',
+        'title': 'Gunung Gambir',
+      },
+      {
+        'image': 'assets/images/watu_ulo.jpg',
+        'title': 'Watu Ulo',
+      },
+      {
+        'image': 'assets/images/kampung_durian.jpg',
+        'title': 'Kampung Durian',
+      },
+      {
+        'image': 'assets/images/museum_tembakau.jpg',
+        'title': 'Museum Tembakau',
+      },
+      {
+        'image': 'assets/images/bebek_galak.jpg',
+        'title': 'Bebek Galak 88',
       },
     ];
 
@@ -100,7 +118,7 @@ class HomePageContent extends StatelessWidget {
                 ),
               ),
               Container(
-                color: Colors.black.withOpacity(0.5),
+                color: Colors.grey,
                 padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 child: Text(
                   item['title']!,
@@ -117,7 +135,7 @@ class HomePageContent extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => DetailWisata()),
+                        MaterialPageRoute(builder: (context) => input_wisata()),
                       );
                     },
                   ),
@@ -174,7 +192,7 @@ class _akun_adminState extends State<akun_admin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 28, 28, 45),
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Center(
           child: Padding(
@@ -227,7 +245,7 @@ class _akun_adminState extends State<akun_admin> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => login(),
+                        builder: (context) => button_guest(),
                       ),
                     );
                   },
@@ -261,7 +279,7 @@ class _akun_adminState extends State<akun_admin> {
       controller: controller,
       enabled: isEditing,
       decoration: InputDecoration(
-        prefixIcon: Icon(icon, color: Color.fromARGB(255, 28, 28, 45)),
+        prefixIcon: Icon(icon, color: Colors.black),
         filled: true,
         fillColor: Colors.grey[200],
         contentPadding: EdgeInsets.all(15),

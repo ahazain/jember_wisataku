@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import "package:jember_wisataku/View/detail_event/details.dart";
+import "package:jember_wisataku/View/publik_guest/detail_event/details.dart";
 import "package:jember_wisataku/widget/widget_support.dart";
 
 class acaratahunan extends StatefulWidget {

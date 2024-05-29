@@ -1,31 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:jember_wisataku/View/acara_tahunan.dart';
-import 'package:jember_wisataku/View/akun.dart';
-import 'package:jember_wisataku/View/home.dart';
+import 'package:jember_wisataku/View/publik_guest/acara_tahunan.dart';
+import 'package:jember_wisataku/View/publik_regis/akun_regis.dart';
+import 'package:jember_wisataku/View/publik_guest/akun_guest.dart';
+import 'package:jember_wisataku/View/publik_guest/home.dart';
 import 'package:jember_wisataku/widget/widget_support.dart';
 
-class buttonNav extends StatefulWidget {
-  const buttonNav({Key? key}) : super(key: key);
+class button_guest extends StatefulWidget {
+  const button_guest({Key? key}) : super(key: key);
 
   @override
-  State<buttonNav> createState() => _ButtonNavState();
+  State<button_guest> createState() => _button_guestState();
 }
 
-class _ButtonNavState extends State<buttonNav> {
+class _button_guestState extends State<button_guest> {
   int currentTabIndex = 0;
 
   late List<Widget> pages;
   late Widget curretPages;
   late HomePage homapage;
   late acaratahunan acara_tahunan;
-  late akun Akun;
+  late AkunGuestPage akun;
+
   @override
   void initState() {
     homapage = HomePage();
     acara_tahunan = acaratahunan();
-    Akun = akun();
-    pages = [homapage, acara_tahunan, Akun];
+    akun = AkunGuestPage();
+    pages = [homapage, acara_tahunan, akun];
     super.initState();
   }
 
@@ -41,7 +43,6 @@ class _ButtonNavState extends State<buttonNav> {
         },
         backgroundColor: Color(0xFF77DD77), // Warna hijau
         selectedItemColor: Color.fromARGB(255, 62, 62, 62),
-
         unselectedItemColor: Color.fromARGB(255, 253, 230, 230),
         selectedLabelStyle: AppWidget.labelbutton(),
         unselectedLabelStyle: AppWidget.labelbutton(),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jember_wisataku/View/detail_wisata/rating.dart';
+import 'package:jember_wisataku/View/publik_guest/detail_wisata/rating.dart';
 import 'package:jember_wisataku/widget/widget_support.dart';
 
 class details extends StatefulWidget {
