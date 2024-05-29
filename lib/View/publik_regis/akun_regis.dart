@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jember_wisataku/View/publik_guest/akun_guest.dart';
-import 'package:jember_wisataku/View/publik_guest/button_guest.dart';
+import 'package:jember_wisataku/View/publik_guest/nav_guest.dart';
 
 import 'package:jember_wisataku/widget/widget_support.dart';
 
@@ -110,7 +110,7 @@ class _akun_regisState extends State<akun_regis> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => button_guest(),
+                        builder: (context) => nav_guest(),
                       ),
                     );
                   },

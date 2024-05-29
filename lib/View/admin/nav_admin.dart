@@ -1,31 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:jember_wisataku/View/admin/home_admin.dart';
 import 'package:jember_wisataku/View/publik_guest/acara_tahunan.dart';
 import 'package:jember_wisataku/View/publik_regis/akun_regis.dart';
-import 'package:jember_wisataku/View/publik_guest/home.dart';
+import 'package:jember_wisataku/View/publik_guest/akun_guest.dart';
 import 'package:jember_wisataku/widget/widget_support.dart';
 
-class button_regis extends StatefulWidget {
-  const button_regis({Key? key}) : super(key: key);
+class nav_admin extends StatefulWidget {
+  const nav_admin({Key? key}) : super(key: key);
 
   @override
-  State<button_regis> createState() => _Button_nonbutton_regisState();
+  State<nav_admin> createState() => _nav_adminState();
 }
 
-class _Button_nonbutton_regisState extends State<button_regis> {
+class _nav_adminState extends State<nav_admin> {
   int currentTabIndex = 0;
 
   late List<Widget> pages;
   late Widget curretPages;
-  late HomePage homapage;
-  late acaratahunan acara_tahunan;
-  late akun_regis Akun;
+  late home_admin homapage;
+  late akun_admin Akun;
   @override
   void initState() {
-    homapage = HomePage();
-    acara_tahunan = acaratahunan();
-    Akun = akun_regis();
-    pages = [homapage, acara_tahunan, Akun];
+    homapage = home_admin(title: 'Admin Home');
+    Akun = akun_admin();
+    pages = [homapage, Akun];
     super.initState();
   }
 
@@ -49,10 +48,6 @@ class _Button_nonbutton_regisState extends State<button_regis> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.event),
-            label: 'Event',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

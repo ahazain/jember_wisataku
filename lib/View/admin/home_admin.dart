@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:jember_wisataku/View/admin/input_wisata.dart';
-import 'package:jember_wisataku/View/publik_guest/button_guest.dart';
+import 'package:jember_wisataku/View/publik_guest/nav_guest.dart';
 
 import 'package:jember_wisataku/widget/widget_support.dart';
 
@@ -245,7 +245,7 @@ class _akun_adminState extends State<akun_admin> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => button_guest(),
+                        builder: (context) => nav_guest(),
                       ),
                     );
                   },

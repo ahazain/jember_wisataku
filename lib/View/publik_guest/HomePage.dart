@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:jember_wisataku/View/publik_guest/detail_wisata/details.dart';
 import 'package:jember_wisataku/widget/widget_support.dart';
 
@@ -8,6 +10,39 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List _listdata = [];
+  List _fullListData = [];
+  TextEditingController _searchController = TextEditingController();
+
+  Future _getdata() async {
+    try {
+      final response = await http.get(Uri.parse(
+          'http://192.168.1.24/wisata_jember/backend/read_wisata.php'));
+      if (response.statusCode == 200) {
+        print('Response body: ${response.body}');
+        final data = jsonDecode(response.body);
+        setState(() {
+          _listdata = data;
+          _fullListData = List.from(data); // Simpan daftar lengkap
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
+  void initState() {
+    _getdata();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,6 +83,8 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Expanded(
                       child: TextField(
+                        controller: _searchController,
+                        onChanged: _search,
                         style: AppWidget.umumTextFieldStyle().copyWith(
                             color: const Color.fromARGB(255, 93, 93, 93)),
                         decoration: InputDecoration(
@@ -69,7 +106,8 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     PopupMenuButton(
-                      icon: Icon(Icons.filter_list, color: Colors.white),
+                      icon: Icon(Icons.filter_list,
+                          color: const Color.fromARGB(255, 51, 51, 51)),
                       itemBuilder: (BuildContext context) => <PopupMenuEntry>[
                         PopupMenuItem(
                           child: Column(
@@ -82,37 +120,57 @@ class _HomePageState extends State<HomePage> {
                                 leading: Icon(Icons.all_inclusive),
                                 title: Text('Semua Wisata',
                                     style: AppWidget.umumTextFieldStyle()),
-                                onTap: () {},
+                                onTap: () {
+                                  setState(() {
+                                    _listdata = List.from(_fullListData);
+                                  });
+                                  Navigator.pop(context); // Close popup
+                                },
                               ),
                               ListTile(
                                 leading: Icon(Icons.nature),
                                 title: Text('Wisata Alam',
                                     style: AppWidget.umumTextFieldStyle()),
-                                onTap: () {},
+                                onTap: () {
+                                  _filterByCategory(1);
+                                  Navigator.pop(context); // Close popup
+                                },
                               ),
                               ListTile(
                                 leading: Icon(Icons.history),
                                 title: Text('Wisata Sejarah',
                                     style: AppWidget.umumTextFieldStyle()),
-                                onTap: () {},
+                                onTap: () {
+                                  _filterByCategory(4);
+                                  Navigator.pop(context); // Close popup
+                                },
                               ),
                               ListTile(
                                 leading: Icon(Icons.school),
                                 title: Text('Wisata Edukasi',
                                     style: AppWidget.umumTextFieldStyle()),
-                                onTap: () {},
+                                onTap: () {
+                                  _filterByCategory(2);
+                                  Navigator.pop(context); // Close popup
+                                },
                               ),
                               ListTile(
                                 leading: Icon(Icons.shopping_cart),
                                 title: Text('Wisata Belanja',
                                     style: AppWidget.umumTextFieldStyle()),
-                                onTap: () {},
+                                onTap: () {
+                                  _filterByCategory(3);
+                                  Navigator.pop(context); // Close popup
+                                },
                               ),
                               ListTile(
                                 leading: Icon(Icons.restaurant),
                                 title: Text('Wisata Kuliner',
                                     style: AppWidget.umumTextFieldStyle()),
-                                onTap: () {},
+                                onTap: () {
+                                  _filterByCategory(5);
+                                  Navigator.pop(context); // Close popup
+                                },
                               ),
                             ],
                           ),
@@ -124,6 +182,7 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
+
           // Scrollable content
           Positioned.fill(
             top: 150.0,
@@ -132,9 +191,7 @@ class _HomePageState extends State<HomePage> {
                 margin: EdgeInsets.only(top: 20.0, left: 17.0, right: 10.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ...buildTouristAttractions(context),
-                  ],
+                  children: _buildTouristAttractions(context),
                 ),
               ),
             ),
@@ -144,75 +201,101 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  List<Widget> buildTouristAttractions(BuildContext context) {
-    List<Map<String, String>> attractions = [
-      {
-        "image":
-            "https://4.bp.blogspot.com/-aIV3NUiKsrk/Ul7bhmliTLI/AAAAAAAADWk/udAysmRkqrU/s1600/gbr+papuma.jpg",
-        "title": "Pantai Papuma"
-      },
-      {
-        "image":
-            "https://4.bp.blogspot.com/-aIV3NUiKsrk/Ul7bhmliTLI/AAAAAAAADWk/udAysmRkqrU/s1600/gbr+papuma.jpg",
-        "title": "Pantai Papuma"
-      },
-      {
-        "image":
-            "https://4.bp.blogspot.com/-aIV3NUiKsrk/Ul7bhmliTLI/AAAAAAAADWk/udAysmRkqrU/s1600/gbr+papuma.jpg",
-        "title": "Pantai Papuma"
-      },
-      // Add more attractions as needed
-    ];
-
-    List<Widget> attractionWidgets = [];
-    for (var attraction in attractions) {
-      attractionWidgets.add(
-        Container(
-          margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-          child: Column(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => details()),
-                  );
-                },
-                child: Center(
-                  child: Stack(
-                    children: [
-                      Image.network(
-                        attraction["image"]!,
-                        height: 218,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                      ),
-                      Positioned(
-                        top: 150,
-                        left: 0,
-                        right: 0,
-                        child: Container(
-                          color: Color.fromARGB(82, 159, 159, 159),
-                          padding: EdgeInsets.symmetric(vertical: 20.0),
-                          child: Center(
-                            child: Text(
-                              attraction["title"]!,
-                              style: AppWidget.headTextFieldStyle()
-                                  .copyWith(color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+  List<Widget> _buildTouristAttractions(BuildContext context) {
+    return _listdata.map((attraction) {
+      return Container(
+        margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+        child: Column(
+          children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => details()),
+                );
+              },
+              child: Center(
+                child: Column(
+                  children: _buildImageStacks(attraction),
                 ),
               ),
-              SizedBox(height: 20.0),
-            ],
-          ),
+            ),
+            SizedBox(height: 20.0),
+          ],
         ),
       );
+    }).toList();
+  }
+
+  List<Widget> _buildImageStacks(Map<String, dynamic> attraction) {
+    List<Widget> imageStacks = [];
+    String imageUrl = attraction["gambar"];
+    String name = attraction["nama_wisata"];
+    int categoryId = int.tryParse(attraction["id_jenis"].toString()) ?? 0;
+
+    imageStacks.add(
+      Stack(
+        children: [
+          Image.network(
+            imageUrl,
+            height: 218,
+            width: double.infinity,
+            fit: BoxFit.cover,
+          ),
+          Positioned(
+            top: 150,
+            left: 0,
+            right: 0,
+            child: Container(
+              color: Color.fromARGB(82, 159, 159, 159),
+              padding: EdgeInsets.symmetric(vertical: 20.0),
+              child: Center(
+                child: Text(
+                  name,
+                  style: AppWidget.headTextFieldStyle()
+                      .copyWith(color: Colors.white),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+    imageStacks.add(SizedBox(height: 10.0)); // Adding space between images
+
+    return imageStacks;
+  }
+
+  void _search(String query) {
+    if (query.isEmpty) {
+      setState(() {
+        _listdata = List.from(
+            _fullListData); // Kembalikan ke daftar lengkap jika query kosong
+      });
+      return;
     }
-    return attractionWidgets;
+    List filteredList = _fullListData.where((attraction) {
+      String attractionName =
+          attraction['nama_wisata'].toString().toLowerCase();
+      return attractionName.contains(query.toLowerCase());
+    }).toList();
+
+    setState(() {
+      _listdata = filteredList;
+    });
+  }
+
+  void _filterByCategory(int categoryId) {
+    print('Filtering by category: $categoryId');
+    List filteredList = _fullListData.where((attraction) {
+      int attractionCategoryId =
+          int.tryParse(attraction['id_jenis'].toString()) ?? 0;
+      print('Attraction id_jenis: $attractionCategoryId');
+      return attractionCategoryId == categoryId;
+    }).toList();
+    print('Filtered list length: ${filteredList.length}');
+    setState(() {
+      _listdata = filteredList;
+    });
   }
 }

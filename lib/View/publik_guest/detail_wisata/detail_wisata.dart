@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:jember_wisataku/View/publik_guest/detail_wisata/rating.dart';
 import 'package:jember_wisataku/widget/widget_support.dart';
 
-class details extends StatefulWidget {
-  const details({super.key});
+class detail_wisata extends StatefulWidget {
+  const detail_wisata({super.key});
 
   @override
-  State<details> createState() => _detailsState();
+  State<detail_wisata> createState() => _detail_wisataState();
 }
 
-class _detailsState extends State<details> {
+class _detail_wisataState extends State<detail_wisata> {
   List<int> ratings = [5, 4, 5, 3, 4]; // Contoh rating dari pengguna
 
   double get averageRating {

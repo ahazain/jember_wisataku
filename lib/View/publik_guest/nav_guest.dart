@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:jember_wisataku/View/publik_guest/acara_tahunan.dart';
+import 'package:jember_wisataku/View/publik_guest/homepage.dart';
 import 'package:jember_wisataku/View/publik_regis/akun_regis.dart';
 import 'package:jember_wisataku/View/publik_guest/akun_guest.dart';
-import 'package:jember_wisataku/View/publik_guest/home.dart';
 import 'package:jember_wisataku/widget/widget_support.dart';
 
-class button_guest extends StatefulWidget {
-  const button_guest({Key? key}) : super(key: key);
+class nav_guest extends StatefulWidget {
+  const nav_guest({Key? key}) : super(key: key);
 
   @override
-  State<button_guest> createState() => _button_guestState();
+  State<nav_guest> createState() => _nav_guestState();
 }
 
-class _button_guestState extends State<button_guest> {
+class _nav_guestState extends State<nav_guest> {
   int currentTabIndex = 0;
 
   late List<Widget> pages;
@@ -42,8 +42,8 @@ class _button_guestState extends State<button_guest> {
           });
         },
         backgroundColor: Color(0xFF77DD77), // Warna hijau
-        selectedItemColor: Color.fromARGB(255, 62, 62, 62),
-        unselectedItemColor: Color.fromARGB(255, 253, 230, 230),
+        unselectedItemColor: Color.fromARGB(255, 62, 62, 62),
+        selectedItemColor: Color.fromARGB(255, 255, 255, 255),
         selectedLabelStyle: AppWidget.labelbutton(),
         unselectedLabelStyle: AppWidget.labelbutton(),
         items: [
