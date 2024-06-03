@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:jember_wisataku/View/publik_guest/detail_wisata/details.dart';
+import 'package:jember_wisataku/View/publik_guest/detail_event.dart';
 import 'package:jember_wisataku/widget/widget_support.dart';
 
 class acaratahunan extends StatefulWidget {
@@ -16,8 +16,8 @@ class _acaratahunanState extends State<acaratahunan> {
 
   Future _getdata() async {
     try {
-      final response = await http.get(Uri.parse(
-          'http://192.168.1.24/wisata_jember/backend/read_event.php'));
+      final response =
+          await http.get(Uri.parse('http://192.168.1.51/api?jenis=event'));
       if (response.statusCode == 200) {
         print(response.body);
         final data = jsonDecode(response.body);
@@ -139,7 +139,7 @@ class _acaratahunanState extends State<acaratahunan> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => details()),
+                  MaterialPageRoute(builder: (context) => detail_event()),
                 );
               },
               child: Center(

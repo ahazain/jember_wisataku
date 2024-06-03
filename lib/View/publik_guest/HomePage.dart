@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:jember_wisataku/View/publik_guest/detail_wisata/details.dart';
+import 'package:jember_wisataku/View/publik_guest/detail_wisata.dart';
 import 'package:jember_wisataku/widget/widget_support.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,11 +16,11 @@ class _HomePageState extends State<HomePage> {
 
   Future _getdata() async {
     try {
-      final response = await http.get(Uri.parse(
-          'http://192.168.1.24/wisata_jember/backend/read_wisata.php'));
+      final response =
+          await http.get(Uri.parse('http://127.0.0.1:8000/api/wisata'));
       if (response.statusCode == 200) {
         print('Response body: ${response.body}');
-        final data = jsonDecode(response.body);
+        final data = jsonDecode(response.body)['data'];
         setState(() {
           _listdata = data;
           _fullListData = List.from(data); // Simpan daftar lengkap
@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Color.fromARGB(255, 246, 246, 248),
       body: Stack(
         children: [
-          // Green oval background
+          // Latar belakang oval hijau
           Positioned(
             top: -100,
             left: -100,
@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
 
-          // Top section
+          // Bagian atas
           Positioned(
             top: 20.0,
             left: 17.0,
@@ -124,7 +124,7 @@ class _HomePageState extends State<HomePage> {
                                   setState(() {
                                     _listdata = List.from(_fullListData);
                                   });
-                                  Navigator.pop(context); // Close popup
+                                  Navigator.pop(context); // Tutup popup
                                 },
                               ),
                               ListTile(
@@ -133,7 +133,7 @@ class _HomePageState extends State<HomePage> {
                                     style: AppWidget.umumTextFieldStyle()),
                                 onTap: () {
                                   _filterByCategory(1);
-                                  Navigator.pop(context); // Close popup
+                                  Navigator.pop(context); // Tutup popup
                                 },
                               ),
                               ListTile(
@@ -142,7 +142,7 @@ class _HomePageState extends State<HomePage> {
                                     style: AppWidget.umumTextFieldStyle()),
                                 onTap: () {
                                   _filterByCategory(4);
-                                  Navigator.pop(context); // Close popup
+                                  Navigator.pop(context); // Tutup popup
                                 },
                               ),
                               ListTile(
@@ -151,7 +151,7 @@ class _HomePageState extends State<HomePage> {
                                     style: AppWidget.umumTextFieldStyle()),
                                 onTap: () {
                                   _filterByCategory(2);
-                                  Navigator.pop(context); // Close popup
+                                  Navigator.pop(context); // Tutup popup
                                 },
                               ),
                               ListTile(
@@ -160,7 +160,7 @@ class _HomePageState extends State<HomePage> {
                                     style: AppWidget.umumTextFieldStyle()),
                                 onTap: () {
                                   _filterByCategory(3);
-                                  Navigator.pop(context); // Close popup
+                                  Navigator.pop(context); // Tutup popup
                                 },
                               ),
                               ListTile(
@@ -169,7 +169,7 @@ class _HomePageState extends State<HomePage> {
                                     style: AppWidget.umumTextFieldStyle()),
                                 onTap: () {
                                   _filterByCategory(5);
-                                  Navigator.pop(context); // Close popup
+                                  Navigator.pop(context); // Tutup popup
                                 },
                               ),
                             ],
@@ -183,7 +183,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
 
-          // Scrollable content
+          // Konten yang dapat digulir
           Positioned.fill(
             top: 150.0,
             child: SingleChildScrollView(
@@ -211,7 +211,9 @@ class _HomePageState extends State<HomePage> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => details()),
+                  MaterialPageRoute(
+                    builder: (context) => detail_wisata(attraction: attraction),
+                  ),
                 );
               },
               child: Center(
@@ -231,7 +233,8 @@ class _HomePageState extends State<HomePage> {
     List<Widget> imageStacks = [];
     String imageUrl = attraction["gambar"];
     String name = attraction["nama_wisata"];
-    int categoryId = int.tryParse(attraction["id_jenis"].toString()) ?? 0;
+    int categoryId =
+        int.tryParse(attraction["jenis_wisata_id"].toString()) ?? 0;
 
     imageStacks.add(
       Stack(
@@ -261,7 +264,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
-    imageStacks.add(SizedBox(height: 10.0)); // Adding space between images
+    imageStacks.add(SizedBox(height: 10.0)); // Menambahkan jarak antar gambar
 
     return imageStacks;
   }
@@ -289,11 +292,11 @@ class _HomePageState extends State<HomePage> {
     print('Filtering by category: $categoryId');
     List filteredList = _fullListData.where((attraction) {
       int attractionCategoryId =
-          int.tryParse(attraction['id_jenis'].toString()) ?? 0;
-      print('Attraction id_jenis: $attractionCategoryId');
+          int.tryParse(attraction['jenis_wisata_id'].toString()) ?? 0;
+      print('Attraction jenis_wisata_id: $attractionCategoryId');
       return attractionCategoryId == categoryId;
     }).toList();
-    print('Filtered list length: ${filteredList.length}');
+
     setState(() {
       _listdata = filteredList;
     });

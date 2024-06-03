@@ -1,31 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:jember_wisataku/View/admin/akun_admin.dart';
 import 'package:jember_wisataku/View/admin/home_admin.dart';
-import 'package:jember_wisataku/View/publik_guest/acara_tahunan.dart';
-import 'package:jember_wisataku/View/publik_regis/akun_regis.dart';
-import 'package:jember_wisataku/View/publik_guest/akun_guest.dart';
 import 'package:jember_wisataku/widget/widget_support.dart';
 
-class nav_admin extends StatefulWidget {
-  const nav_admin({Key? key}) : super(key: key);
+class NavAdmin extends StatefulWidget {
+  const NavAdmin({Key? key}) : super(key: key);
 
   @override
-  State<nav_admin> createState() => _nav_adminState();
+  State<NavAdmin> createState() => _NavAdminState();
 }
 
-class _nav_adminState extends State<nav_admin> {
+class _NavAdminState extends State<NavAdmin> {
   int currentTabIndex = 0;
 
   late List<Widget> pages;
-  late Widget curretPages;
-  late home_admin homapage;
-  late akun_admin Akun;
+  late HomeAdmin homePage;
+  late AkunAdmin akunPage;
+
   @override
   void initState() {
-    homapage = home_admin(title: 'Admin Home');
-    Akun = akun_admin();
-    pages = [homapage, Akun];
     super.initState();
+    homePage = HomeAdmin(title: 'Admin Home');
+    akunPage = AkunAdmin();
+    pages = [homePage, akunPage];
   }
 
   @override
@@ -40,7 +37,6 @@ class _nav_adminState extends State<nav_admin> {
         },
         backgroundColor: Color(0xFF77DD77), // Warna hijau
         selectedItemColor: Color.fromARGB(255, 62, 62, 62),
-
         unselectedItemColor: Color.fromARGB(255, 253, 230, 230),
         selectedLabelStyle: AppWidget.labelbutton(),
         unselectedLabelStyle: AppWidget.labelbutton(),

@@ -168,7 +168,7 @@ class _AkunGuestPageState extends State<AkunGuestPage> {
               if (_userType == 'admin') {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => nav_admin()),
+                  MaterialPageRoute(builder: (context) => NavAdmin()),
                 );
               } else if (_userType == 'user') {
                 Navigator.pushReplacement(

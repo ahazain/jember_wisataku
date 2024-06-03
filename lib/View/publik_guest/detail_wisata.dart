@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:jember_wisataku/View/publik_guest/detail_wisata/rating.dart';
+import 'package:jember_wisataku/View/publik_guest/rating.dart';
+import 'package:jember_wisataku/View/publik_guest/maps.dart';
 import 'package:jember_wisataku/widget/widget_support.dart';
 
 class detail_wisata extends StatefulWidget {
-  const detail_wisata({super.key});
+  final Map<String, dynamic> attraction;
+
+  const detail_wisata({Key? key, required this.attraction}) : super(key: key);
 
   @override
   State<detail_wisata> createState() => _detail_wisataState();
@@ -19,6 +22,7 @@ class _detail_wisataState extends State<detail_wisata> {
 
   @override
   Widget build(BuildContext context) {
+    final attraction = widget.attraction;
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -36,7 +40,7 @@ class _detail_wisataState extends State<detail_wisata> {
               SizedBox(height: 20.0),
               Center(
                 child: Image.network(
-                  "https://4.bp.blogspot.com/-aIV3NUiKsrk/Ul7bhmliTLI/AAAAAAAADWk/udAysmRkqrU/s1600/gbr+papuma.jpg",
+                  attraction['gambar'],
                   height: 200,
                 ),
               ),
@@ -59,7 +63,17 @@ class _detail_wisataState extends State<detail_wisata> {
                     ),
                     IconButton(
                       onPressed: () {
-                        // Handle Maps action here
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MapsPage(
+                              destinationLatitude:
+                                  double.parse(attraction['latitude']),
+                              destinationLongitude:
+                                  double.parse(attraction['longitude']),
+                            ),
+                          ),
+                        );
                       },
                       icon: Icon(Icons.location_on,
                           color: Colors.red), // Assuming Maps icon is red
@@ -74,12 +88,12 @@ class _detail_wisataState extends State<detail_wisata> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      "Pantai Papuma",
+                      attraction['nama_wisata'],
                       style: AppWidget.bold2TextFieldStyle(),
                     ),
                     SizedBox(height: 10),
                     Text(
-                      "Pantai Papuma di Jember adalah keindahan alam dan pesona pantai yang menakjubkan. Terletak di ujung selatan Jawa Timur, pantai ini menawarkan pemandangan yang menakjubkan dengan garis pantai yang panjang, pasir putih yang lembut, dan ombak yang memukau. Suasana Pantai Papuma begitu menenangkan dan menyejukkan. Saat matahari terbenam, panorama Pantai Papuma menjadi semakin memikat dengan warna-warna senja yang memukau.",
+                      attraction['deskripsi'],
                       style: AppWidget.leghtTextFieldStyle(),
                       textAlign: TextAlign.justify,
                     ),
