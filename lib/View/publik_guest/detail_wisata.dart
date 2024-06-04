@@ -61,23 +61,23 @@ class _detail_wisataState extends State<detail_wisata> {
                         ),
                       ],
                     ),
-                    IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MapsPage(
-                              destinationLatitude:
-                                  double.parse(attraction['latitude']),
-                              destinationLongitude:
-                                  double.parse(attraction['longitude']),
-                            ),
-                          ),
-                        );
-                      },
-                      icon: Icon(Icons.location_on,
-                          color: Colors.red), // Assuming Maps icon is red
-                    ),
+                    // IconButton(
+                    //   onPressed: () {
+                    //     Navigator.push(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //         builder: (context) => MapsPage(
+                    //           destinationLatitude:
+                    //               double.parse(attraction['latitude']),
+                    //           destinationLongitude:
+                    //               double.parse(attraction['longitude']),
+                    //         ),
+                    //       ),
+                    //     );
+                    //   },
+                    //   icon: Icon(Icons.location_on,
+                    //       color: Colors.red), // Assuming Maps icon is red
+                    // ),
                   ],
                 ),
               ),

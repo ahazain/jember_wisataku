@@ -5,14 +5,16 @@ import 'package:jember_wisataku/View/admin/HomeAdminku.dart';
 import 'package:jember_wisataku/View/admin/home_admin.dart';
 import 'package:jember_wisataku/View/publik_guest/homepage.dart';
 
-class tambah_wisata extends StatefulWidget {
-  const tambah_wisata({super.key});
+class editData extends StatefulWidget {
+  final Map<String, dynamic> attraction;
+
+  const editData({Key? key, required this.attraction}) : super(key: key);
 
   @override
-  State<tambah_wisata> createState() => _tambah_wisataState();
+  State<editData> createState() => _editDataState();
 }
 
-class _tambah_wisataState extends State<tambah_wisata> {
+class _editDataState extends State<editData> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController _nameController = TextEditingController();
   TextEditingController _jeniswisataController = TextEditingController();
@@ -22,8 +24,9 @@ class _tambah_wisataState extends State<tambah_wisata> {
 
   Future saveWisata() async {
     try {
-      final response = await http.post(
-        Uri.parse('http://127.0.0.1:8000/api/wisata'),
+      final response = await http.put(
+        Uri.parse('http://127.0.0.1:8000/api/wisata' +
+            widget.attraction['id'].toString()),
         body: {
           "jenis_wisata_id": _jeniswisataController.text,
           "nama_wisata": _nameController.text,
@@ -64,7 +67,9 @@ class _tambah_wisataState extends State<tambah_wisata> {
         child: Column(
           children: [
             TextFormField(
-              controller: _nameController,
+              controller: _nameController
+                ..value = TextEditingValue(
+                    text: widget.attraction['nama_wisata'] ?? ''),
               decoration: InputDecoration(labelText: "Nama Wisata"),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -74,7 +79,9 @@ class _tambah_wisataState extends State<tambah_wisata> {
               },
             ),
             TextFormField(
-              controller: _jeniswisataController,
+              controller: _jeniswisataController
+                ..value = TextEditingValue(
+                    text: widget.attraction['jenis_wisata_id'] ?? ''),
               decoration: InputDecoration(labelText: "Jenis Wisata"),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -84,7 +91,9 @@ class _tambah_wisataState extends State<tambah_wisata> {
               },
             ),
             TextFormField(
-              controller: _gambarController,
+              controller: _gambarController
+                ..value =
+                    TextEditingValue(text: widget.attraction['gambar'] ?? ''),
               decoration: InputDecoration(labelText: "Gambar"),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -94,7 +103,9 @@ class _tambah_wisataState extends State<tambah_wisata> {
               },
             ),
             TextFormField(
-              controller: _deskripsiController,
+              controller: _deskripsiController
+                ..value = TextEditingValue(
+                    text: widget.attraction['deskripsi'] ?? ''),
               decoration: InputDecoration(labelText: "Deskripsi"),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -104,7 +115,9 @@ class _tambah_wisataState extends State<tambah_wisata> {
               },
             ),
             TextFormField(
-              controller: _alamatController,
+              controller: _alamatController
+                ..value =
+                    TextEditingValue(text: widget.attraction['alamat'] ?? ''),
               decoration: InputDecoration(labelText: "Alamat"),
               validator: (value) {
                 if (value == null || value.isEmpty) {

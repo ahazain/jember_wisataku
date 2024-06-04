@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jember_wisataku/View/admin/HomeAdminku.dart';
 import 'package:jember_wisataku/View/admin/akun_admin.dart';
 import 'package:jember_wisataku/View/admin/home_admin.dart';
 import 'package:jember_wisataku/widget/widget_support.dart';
@@ -14,13 +15,13 @@ class _NavAdminState extends State<NavAdmin> {
   int currentTabIndex = 0;
 
   late List<Widget> pages;
-  late HomeAdmin homePage;
+  late HomeAdminKu homePage;
   late AkunAdmin akunPage;
 
   @override
   void initState() {
     super.initState();
-    homePage = HomeAdmin(title: 'Admin Home');
+    homePage = HomeAdminKu();
     akunPage = AkunAdmin();
     pages = [homePage, akunPage];
   }

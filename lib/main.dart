@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jember_wisataku/View/admin/nav_admin.dart';
+import 'package:jember_wisataku/View/publik_guest/nav_guest.dart';
+import 'package:jember_wisataku/View/publik_regis/nav_regis.dart';
 
 void main() {
   runApp(const MyApp());
