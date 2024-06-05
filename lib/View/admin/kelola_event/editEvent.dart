@@ -1,20 +1,21 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
-import 'package:jember_wisataku/View/admin/HomeAdminku.dart';
-import 'package:jember_wisataku/View/admin/home_admin.dart';
+import 'package:jember_wisataku/View/admin/kelola_wisata/read_wisata.dart';
+import 'package:jember_wisataku/View/admin/nav_admin.dart';
 import 'package:jember_wisataku/View/publik_guest/homepage.dart';
 
-class editData extends StatefulWidget {
-  final Map<String, dynamic> attraction;
+class EditEvent extends StatefulWidget {
+  final Map<String, dynamic> wisata;
 
-  const editData({Key? key, required this.attraction}) : super(key: key);
+  const EditEvent({Key? key, required this.wisata}) : super(key: key);
 
   @override
-  State<editData> createState() => _editDataState();
+  State<EditEvent> createState() => _EditEventState();
 }
 
-class _editDataState extends State<editData> {
+class _EditEventState extends State<EditEvent> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController _nameController = TextEditingController();
   TextEditingController _jeniswisataController = TextEditingController();
@@ -22,11 +23,11 @@ class _editDataState extends State<editData> {
   TextEditingController _deskripsiController = TextEditingController();
   TextEditingController _alamatController = TextEditingController();
 
-  Future saveWisata() async {
+  Future updateWisata() async {
     try {
       final response = await http.put(
-        Uri.parse('http://127.0.0.1:8000/api/wisata' +
-            widget.attraction['id'].toString()),
+        Uri.parse(
+            'http://10.0.2.2:8000/api/event/' + widget.wisata['id'.toString()]),
         body: {
           "jenis_wisata_id": _jeniswisataController.text,
           "nama_wisata": _nameController.text,
@@ -38,7 +39,7 @@ class _editDataState extends State<editData> {
       if (response.statusCode == 200) {
         return json.decode(response.body);
       } else {
-        throw Exception('Gagal menyimpan wisata');
+        throw Exception(' menyimpan wisata');
       }
     } catch (e) {
       print(e);
@@ -67,9 +68,7 @@ class _editDataState extends State<editData> {
         child: Column(
           children: [
             TextFormField(
-              controller: _nameController
-                ..value = TextEditingValue(
-                    text: widget.attraction['nama_wisata'] ?? ''),
+              controller: _nameController..text = widget.wisata['nama_wisata'],
               decoration: InputDecoration(labelText: "Nama Wisata"),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -80,8 +79,7 @@ class _editDataState extends State<editData> {
             ),
             TextFormField(
               controller: _jeniswisataController
-                ..value = TextEditingValue(
-                    text: widget.attraction['jenis_wisata_id'] ?? ''),
+                ..text = widget.wisata['jenis_wisata_id'].toString(),
               decoration: InputDecoration(labelText: "Jenis Wisata"),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -91,9 +89,7 @@ class _editDataState extends State<editData> {
               },
             ),
             TextFormField(
-              controller: _gambarController
-                ..value =
-                    TextEditingValue(text: widget.attraction['gambar'] ?? ''),
+              controller: _gambarController..text = widget.wisata['gambar'],
               decoration: InputDecoration(labelText: "Gambar"),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -104,8 +100,7 @@ class _editDataState extends State<editData> {
             ),
             TextFormField(
               controller: _deskripsiController
-                ..value = TextEditingValue(
-                    text: widget.attraction['deskripsi'] ?? ''),
+                ..text = widget.wisata['deskripsi'],
               decoration: InputDecoration(labelText: "Deskripsi"),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -115,9 +110,7 @@ class _editDataState extends State<editData> {
               },
             ),
             TextFormField(
-              controller: _alamatController
-                ..value =
-                    TextEditingValue(text: widget.attraction['alamat'] ?? ''),
+              controller: _alamatController..text = widget.wisata['alamat'],
               decoration: InputDecoration(labelText: "Alamat"),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -132,15 +125,15 @@ class _editDataState extends State<editData> {
             ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  saveWisata().then((value) {
+                  updateWisata().then((value) {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => HomeAdminKu()),
+                      MaterialPageRoute(builder: (context) => NavAdmin()),
                     );
                   });
                 }
               },
-              child: Text('Save'),
+              child: Text('Update'),
             )
           ],
         ),

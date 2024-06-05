@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:jember_wisataku/View/admin/HomeAdminku.dart';
-import 'package:jember_wisataku/View/admin/home_admin.dart';
+import 'package:jember_wisataku/View/admin/kelola_wisata/read_wisata.dart';
+import 'package:jember_wisataku/View/admin/nav_admin.dart';
 import 'package:jember_wisataku/View/publik_guest/homepage.dart';
 
 class tambah_wisata extends StatefulWidget {
@@ -23,7 +23,7 @@ class _tambah_wisataState extends State<tambah_wisata> {
   Future saveWisata() async {
     try {
       final response = await http.post(
-        Uri.parse('http://127.0.0.1:8000/api/wisata'),
+        Uri.parse('http://10.0.2.2:8000/api/wisata'),
         body: {
           "jenis_wisata_id": _jeniswisataController.text,
           "nama_wisata": _nameController.text,
@@ -34,8 +34,6 @@ class _tambah_wisataState extends State<tambah_wisata> {
       );
       if (response.statusCode == 200) {
         return json.decode(response.body);
-      } else {
-        throw Exception('Gagal menyimpan wisata');
       }
     } catch (e) {
       print(e);
@@ -122,7 +120,9 @@ class _tambah_wisataState extends State<tambah_wisata> {
                   saveWisata().then((value) {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => HomeAdminKu()),
+                      MaterialPageRoute(
+                        builder: (context) => NavAdmin(),
+                      ),
                     );
                   });
                 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jember_wisataku/View/admin/akun_admin.dart';
 import 'package:jember_wisataku/View/admin/nav_admin.dart';
-import 'package:jember_wisataku/View/admin/home_admin.dart';
 import 'package:jember_wisataku/View/publik_guest/nav_guest.dart';
 import 'package:jember_wisataku/View/publik_regis/nav_regis.dart';
 import 'package:jember_wisataku/widget/widget_support.dart';
@@ -168,7 +167,7 @@ class _AkunGuestPageState extends State<AkunGuestPage> {
               if (_userType == 'admin') {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => NavAdmin()),
+                  MaterialPageRoute(builder: (context) => nav_regis()),
                 );
               } else if (_userType == 'user') {
                 Navigator.pushReplacement(

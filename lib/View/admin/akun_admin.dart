@@ -4,14 +4,14 @@ import 'package:jember_wisataku/View/publik_guest/nav_guest.dart';
 
 import 'package:jember_wisataku/widget/widget_support.dart';
 
-class AkunAdmin extends StatefulWidget {
-  const AkunAdmin({Key? key}) : super(key: key);
+class Akun_Admin extends StatefulWidget {
+  const Akun_Admin({Key? key}) : super(key: key);
 
   @override
-  State<AkunAdmin> createState() => _AkunAdminState();
+  State<Akun_Admin> createState() => _Akun_AdminState();
 }
 
-class _AkunAdminState extends State<AkunAdmin> {
+class _Akun_AdminState extends State<Akun_Admin> {
   bool _isEditing = false;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();

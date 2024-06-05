@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:jember_wisataku/View/admin/HomeAdminku.dart';
 import 'package:jember_wisataku/View/admin/akun_admin.dart';
-import 'package:jember_wisataku/View/admin/home_admin.dart';
+import 'package:jember_wisataku/View/admin/kelola_event/read_event.dart';
+import 'package:jember_wisataku/View/admin/kelola_wisata/read_wisata.dart';
 import 'package:jember_wisataku/widget/widget_support.dart';
 
 class NavAdmin extends StatefulWidget {
@@ -15,15 +15,19 @@ class _NavAdminState extends State<NavAdmin> {
   int currentTabIndex = 0;
 
   late List<Widget> pages;
-  late HomeAdminKu homePage;
-  late AkunAdmin akunPage;
+  late readWisata homePage;
+  late readEvent event;
+  late Akun_Admin akunPage;
 
   @override
   void initState() {
     super.initState();
-    homePage = HomeAdminKu();
-    akunPage = AkunAdmin();
-    pages = [homePage, akunPage];
+    homePage = readWisata(
+      title: 'homeadmin',
+    );
+    event = readEvent(title: 'event');
+    akunPage = Akun_Admin();
+    pages = [homePage, event, akunPage];
   }
 
   @override
@@ -45,6 +49,10 @@ class _NavAdminState extends State<NavAdmin> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.event),
+            label: 'Acara Tahunan',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
