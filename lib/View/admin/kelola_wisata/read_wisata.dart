@@ -85,7 +85,7 @@ class _readWisataPageContentState extends State<readWisataPageContent> {
   Future<List<Map<String, dynamic>>> _getWisata() async {
     try {
       final response =
-          await http.get(Uri.parse('http://10.0.2.2:8000/api/wisata'));
+          await http.get(Uri.parse('http://192.168.1.36:8000/api/wisata'));
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = json.decode(response.body);
         final List<dynamic>? data = responseData['data'];

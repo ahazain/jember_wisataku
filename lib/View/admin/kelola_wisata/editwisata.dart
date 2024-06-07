@@ -26,7 +26,7 @@ class _EditwisataState extends State<Editwisata> {
   Future updateWisata() async {
     try {
       final response = await http.put(
-        Uri.parse('http://10.0.2.2:8000/api/wisata/' +
+        Uri.parse('http://192.168.1.72:8000/api/wisata/' +
             widget.wisata['id'.toString()]),
         body: {
           "jenis_wisata_id": _jeniswisataController.text,
@@ -61,7 +61,7 @@ class _EditwisataState extends State<Editwisata> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tambah Wisata'),
+        title: Text('Edit Wisata'),
       ),
       body: Form(
         key: _formKey,

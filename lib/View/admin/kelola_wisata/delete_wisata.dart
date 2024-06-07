@@ -4,7 +4,7 @@ class DeleteService {
   static Future<bool> deleteWisata(String id) async {
     try {
       final response = await http.delete(
-        Uri.parse('http://10.0.2.2:8000/api/wisata/$id'),
+        Uri.parse('http://192.168.1.36:8000/api/wisata/$id'),
       );
       if (response.statusCode == 200) {
         return true; // Berhasil menghapus

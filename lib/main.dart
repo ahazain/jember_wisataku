@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jember_wisataku/Percobaan/maps.dart';
 import 'package:jember_wisataku/View/admin/kelola_wisata/read_wisata.dart';
 import 'package:jember_wisataku/View/admin/nav_admin.dart';
 import 'package:jember_wisataku/View/publik_guest/nav_guest.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       // home: Splash(),
-      home: NavAdmin(),
+      home: nav_guest(),
     );
   }
 }

@@ -19,12 +19,12 @@ class _Button_nonnav_regisState extends State<nav_regis> {
   late List<Widget> pages;
   late Widget curretPages;
   late HomePage homapage;
-  late acaratahunan acara_tahunan;
+  late Event acara_tahunan;
   late akun_regis Akun;
   @override
   void initState() {
     homapage = HomePage();
-    acara_tahunan = acaratahunan();
+    acara_tahunan = Event();
     Akun = akun_regis();
     pages = [homapage, acara_tahunan, Akun];
     super.initState();

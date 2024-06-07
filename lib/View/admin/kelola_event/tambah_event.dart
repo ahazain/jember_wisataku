@@ -13,7 +13,6 @@ class tambahEvent extends StatefulWidget {
 }
 
 class _tambahEventState extends State<tambahEvent> {
-  int currentTabIndex = 1;
   final _formKey = GlobalKey<FormState>();
   TextEditingController _nameController = TextEditingController();
   TextEditingController _gambarController = TextEditingController();
@@ -22,7 +21,7 @@ class _tambahEventState extends State<tambahEvent> {
   Future saveWisata() async {
     try {
       final response = await http.post(
-        Uri.parse('http://10.0.2.2:8000/api/event'),
+        Uri.parse('http://192.168.1.72:8000/api/event'),
         body: {
           "nama_acara": _nameController.text,
           "gambar": _gambarController.text,
@@ -50,7 +49,7 @@ class _tambahEventState extends State<tambahEvent> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tambah Wisata'),
+        title: Text('Tambah Acara Tahunan'),
       ),
       body: Form(
         key: _formKey,
@@ -93,20 +92,12 @@ class _tambahEventState extends State<tambahEvent> {
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   saveWisata().then((value) {
-                    if (value != null) {
-                      setState(() {
-                        currentTabIndex = 1;
-                      });
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) => NavAdmin(),
-                        ),
-                        (route) => false,
-                      );
-                    } else {
-                      // Gagal menyimpan data, lakukan sesuatu seperti menampilkan pesan kesalahan
-                    }
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => NavAdmin(),
+                      ),
+                    );
                   });
                 }
               },

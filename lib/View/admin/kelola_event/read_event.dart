@@ -87,7 +87,7 @@ class _readEventPageContentState extends State<readEventPageContent> {
   Future<List<Map<String, dynamic>>> _getWisata() async {
     try {
       final response =
-          await http.get(Uri.parse('http://10.0.2.2:8000/api/event'));
+          await http.get(Uri.parse('http://192.168.1.72:8000/api/event'));
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = json.decode(response.body);
         final List<dynamic>? data = responseData['data'];

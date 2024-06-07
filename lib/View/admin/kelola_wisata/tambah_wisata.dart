@@ -23,7 +23,7 @@ class _tambah_wisataState extends State<tambah_wisata> {
   Future saveWisata() async {
     try {
       final response = await http.post(
-        Uri.parse('http://10.0.2.2:8000/api/wisata'),
+        Uri.parse('http://192.168.1.72:8000/api/wisata'),
         body: {
           "jenis_wisata_id": _jeniswisataController.text,
           "nama_wisata": _nameController.text,

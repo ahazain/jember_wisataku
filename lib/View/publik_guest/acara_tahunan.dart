@@ -1,15 +1,15 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:jember_wisataku/View/publik_guest/detail_event.dart';
+import 'package:jember_wisataku/View/publik_guest/detail_wisata.dart';
 import 'package:jember_wisataku/widget/widget_support.dart';
 
-class acaratahunan extends StatefulWidget {
+class Event extends StatefulWidget {
   @override
-  _acaratahunanState createState() => _acaratahunanState();
+  _EventState createState() => _EventState();
 }
 
-class _acaratahunanState extends State<acaratahunan> {
+class _EventState extends State<Event> {
   List _listdata = [];
   List _fullListData = [];
   TextEditingController _searchController = TextEditingController();
@@ -17,10 +17,10 @@ class _acaratahunanState extends State<acaratahunan> {
   Future _getdata() async {
     try {
       final response =
-          await http.get(Uri.parse('http://192.168.1.51/api?jenis=event'));
+          await http.get(Uri.parse('http://192.168.1.72:8000/api/event'));
       if (response.statusCode == 200) {
-        print(response.body);
-        final data = jsonDecode(response.body);
+        print('Response body: ${response.body}');
+        final data = jsonDecode(response.body)['data'];
         setState(() {
           _listdata = data;
           _fullListData = List.from(data); // Simpan daftar lengkap
@@ -35,7 +35,6 @@ class _acaratahunanState extends State<acaratahunan> {
   void initState() {
     _getdata();
     super.initState();
-    _searchController.addListener(_search);
   }
 
   @override
@@ -50,7 +49,7 @@ class _acaratahunanState extends State<acaratahunan> {
       backgroundColor: Color.fromARGB(255, 246, 246, 248),
       body: Stack(
         children: [
-          // Green oval background
+          // Latar belakang oval hijau
           Positioned(
             top: -100,
             left: -100,
@@ -64,7 +63,7 @@ class _acaratahunanState extends State<acaratahunan> {
             ),
           ),
 
-          // Top section
+          // Bagian atas
           Positioned(
             top: 20.0,
             left: 17.0,
@@ -85,6 +84,7 @@ class _acaratahunanState extends State<acaratahunan> {
                     Expanded(
                       child: TextField(
                         controller: _searchController,
+                        onChanged: _search,
                         style: AppWidget.umumTextFieldStyle().copyWith(
                             color: const Color.fromARGB(255, 93, 93, 93)),
                         decoration: InputDecoration(
@@ -111,7 +111,7 @@ class _acaratahunanState extends State<acaratahunan> {
             ),
           ),
 
-          // Scrollable content
+          // Konten yang dapat digulir
           Positioned.fill(
             top: 150.0,
             child: SingleChildScrollView(
@@ -139,7 +139,9 @@ class _acaratahunanState extends State<acaratahunan> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => detail_event()),
+                  MaterialPageRoute(
+                    builder: (context) => DetailWisata(attraction: attraction),
+                  ),
                 );
               },
               child: Center(
@@ -157,58 +159,52 @@ class _acaratahunanState extends State<acaratahunan> {
 
   List<Widget> _buildImageStacks(Map<String, dynamic> attraction) {
     List<Widget> imageStacks = [];
-    List<String> imageUrls = attraction["gambar"]
-        .split(','); // Assuming multiple URLs are separated by commas
-    List<String> names = attraction["nama_event"]
-        .split(','); // Assuming multiple names are separated by commas
+    String imageUrl = attraction["gambar"];
+    String name = attraction["nama_acara"];
 
-    for (int i = 0; i < imageUrls.length; i++) {
-      imageStacks.add(
-        Stack(
-          children: [
-            Image.network(
-              imageUrls[i],
-              height: 218,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
-            Positioned(
-              top: 150,
-              left: 0,
-              right: 0,
-              child: Container(
-                color: Color.fromARGB(82, 159, 159, 159),
-                padding: EdgeInsets.symmetric(vertical: 20.0),
-                child: Center(
-                  child: Text(
-                    names[i],
-                    style: AppWidget.headTextFieldStyle()
-                        .copyWith(color: Colors.white),
-                  ),
+    imageStacks.add(
+      Stack(
+        children: [
+          Image.network(
+            imageUrl,
+            height: 218,
+            width: double.infinity,
+            fit: BoxFit.cover,
+          ),
+          Positioned(
+            top: 150,
+            left: 0,
+            right: 0,
+            child: Container(
+              color: Color.fromARGB(82, 159, 159, 159),
+              padding: EdgeInsets.symmetric(vertical: 20.0),
+              child: Center(
+                child: Text(
+                  name,
+                  style: AppWidget.headTextFieldStyle()
+                      .copyWith(color: Colors.white),
                 ),
               ),
             ),
-          ],
-        ),
-      );
-      imageStacks.add(SizedBox(height: 10.0)); // Adding space between images
-    }
+          ),
+        ],
+      ),
+    );
+    imageStacks.add(SizedBox(height: 10.0)); // Menambahkan jarak antar gambar
 
     return imageStacks;
   }
 
-  void _search() {
-    String query = _searchController.text.toLowerCase();
+  void _search(String query) {
     if (query.isEmpty) {
       setState(() {
-        _listdata = List.from(
-            _fullListData); // Kembalikan ke daftar lengkap jika query kosong
+        _listdata = List.from(_fullListData);
       });
       return;
     }
     List filteredList = _fullListData.where((attraction) {
-      String attractionName = attraction['nama_event'].toString().toLowerCase();
-      return attractionName.contains(query);
+      String attractionName = attraction['nama_acara'].toString().toLowerCase();
+      return attractionName.contains(query.toLowerCase());
     }).toList();
 
     setState(() {

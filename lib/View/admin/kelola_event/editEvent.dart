@@ -26,14 +26,12 @@ class _EditEventState extends State<EditEvent> {
   Future updateWisata() async {
     try {
       final response = await http.put(
-        Uri.parse(
-            'http://10.0.2.2:8000/api/event/' + widget.wisata['id'.toString()]),
+        Uri.parse('http://192.168.1.72:8000/api/event/' +
+            widget.wisata['id'.toString()]),
         body: {
-          "jenis_wisata_id": _jeniswisataController.text,
-          "nama_wisata": _nameController.text,
+          "nama_vent": _nameController.text,
           "gambar": _gambarController.text,
           "deskripsi": _deskripsiController.text,
-          "alamat": _alamatController.text,
         },
       );
       if (response.statusCode == 200) {
@@ -61,15 +59,15 @@ class _EditEventState extends State<EditEvent> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tambah Wisata'),
+        title: Text('Edit Acara Tahunan'),
       ),
       body: Form(
         key: _formKey,
         child: Column(
           children: [
             TextFormField(
-              controller: _nameController..text = widget.wisata['nama_wisata'],
-              decoration: InputDecoration(labelText: "Nama Wisata"),
+              controller: _nameController..text = widget.wisata['nama_event'],
+              decoration: InputDecoration(labelText: "Nama Acara Tahunan"),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return "Data tidak boleh kosong";

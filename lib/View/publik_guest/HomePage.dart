@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
   Future _getdata() async {
     try {
       final response =
-          await http.get(Uri.parse('http://127.0.0.1:8000/api/wisata'));
+          await http.get(Uri.parse('http://192.168.1.36:8000/api/wisata'));
       if (response.statusCode == 200) {
         print('Response body: ${response.body}');
         final data = jsonDecode(response.body)['data'];
@@ -212,7 +212,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => detail_wisata(attraction: attraction),
+                    builder: (context) => DetailWisata(attraction: attraction),
                   ),
                 );
               },

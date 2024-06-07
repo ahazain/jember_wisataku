@@ -1,24 +1,78 @@
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
+// import 'package:http/http.dart' as http;
+// import 'dart:convert';
 
-class Rating extends StatelessWidget {
-  final int rating;
-  final double size;
+// class RatingManagement extends StatefulWidget {
+//   final int wisataId;
 
-  const Rating({super.key, required this.rating, required this.size});
+//   const RatingManagement({Key? key, required this.wisataId}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: List.generate(5, (index) {
-        final bool isStarred = index < rating;
-        final IconData icon = isStarred ? Icons.star : Icons.star_border;
+//   @override
+//   _RatingManagementState createState() => _RatingManagementState();
+// }
 
-        return Icon(
-          icon,
-          color: isStarred ? Colors.amber : Colors.grey[500],
-          size: size,
-        );
-      }),
-    );
-  }
-}
+// class _RatingManagementState extends State<RatingManagement> {
+//   final _formKey = GlobalKey<FormState>();
+//   int _ratingValue = 1;
+
+//   Future<void> _submitRating() async {
+//     if (_formKey.currentState!.validate()) {
+//       final response = await http.post(
+//         Uri.parse(
+//             'http://127.0.0.1:8000/api/wisata/${widget.wisataId}/ratings'),
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         body: json.encode({'rating_value': _ratingValue}),
+//       );
+
+//       if (response.statusCode == 201) {
+//         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+//           content: Text('Rating berhasil ditambahkan'),
+//         ));
+//       } else {
+//         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+//           content: Text('Gagal menambahkan rating'),
+//         ));
+//       }
+//     }
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Form(
+//       key: _formKey,
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           DropdownButtonFormField<int>(
+//             value: _ratingValue,
+//             onChanged: (int? newValue) {
+//               setState(() {
+//                 _ratingValue = newValue!;
+//               });
+//             },
+//             items: [1, 2, 3, 4, 5].map((int value) {
+//               return DropdownMenuItem<int>(
+//                 value: value,
+//                 child: Text(value.toString()),
+//               );
+//             }).toList(),
+//             decoration: InputDecoration(labelText: 'Rating'),
+//             validator: (value) {
+//               if (value == null) {
+//                 return 'Please select a rating';
+//               }
+//               return null;
+//             },
+//           ),
+//           SizedBox(height: 16.0),
+//           ElevatedButton(
+//             onPressed: _submitRating,
+//             child: Text('Submit'),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
