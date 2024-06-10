@@ -17,12 +17,12 @@ class tambah_wisata extends StatefulWidget {
 class _tambah_wisataState extends State<tambah_wisata> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController _nameController = TextEditingController();
-  TextEditingController _jeniswisataController = TextEditingController();
   TextEditingController _gambarController = TextEditingController();
   TextEditingController _deskripsiController = TextEditingController();
   TextEditingController _alamatController = TextEditingController();
   TextEditingController _latitudeController = TextEditingController();
   TextEditingController _longitudeController = TextEditingController();
+  int? _selectedJenisWisata;
 
   Future saveWisata() async {
     try {
@@ -50,11 +50,13 @@ class _tambah_wisataState extends State<tambah_wisata> {
           'Authorization': 'Bearer $accessToken', // Sertakan Bearer Token
         },
         body: jsonEncode(<String, dynamic>{
-          "jenis_wisata_id": _jeniswisataController.text,
+          "jenis_wisata_id": _selectedJenisWisata,
           "nama_wisata": _nameController.text,
           "gambar": _gambarController.text,
           "deskripsi": _deskripsiController.text,
           "alamat": _alamatController.text,
+          "latitude": _latitudeController.text,
+          "longitude": _longitudeController.text,
         }),
       );
 
@@ -74,7 +76,6 @@ class _tambah_wisataState extends State<tambah_wisata> {
   @override
   void dispose() {
     _nameController.dispose();
-    _jeniswisataController.dispose();
     _gambarController.dispose();
     _deskripsiController.dispose();
     _alamatController.dispose();
@@ -88,100 +89,148 @@ class _tambah_wisataState extends State<tambah_wisata> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Tambah Wisata'),
+        automaticallyImplyLeading: false,
       ),
-      body: Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            TextFormField(
-              controller: _nameController,
-              decoration: InputDecoration(labelText: "Nama Wisata"),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Data tidak boleh kosong";
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: _jeniswisataController,
-              decoration: InputDecoration(labelText: "Jenis Wisata"),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Data tidak boleh kosong";
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: _gambarController,
-              decoration: InputDecoration(labelText: "Gambar"),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Data tidak boleh kosong";
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: _deskripsiController,
-              decoration: InputDecoration(labelText: "Deskripsi"),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Data tidak boleh kosong";
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: _alamatController,
-              decoration: InputDecoration(labelText: "Alamat"),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Data tidak boleh kosong";
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: _latitudeController,
-              decoration: InputDecoration(labelText: "Latitude"),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Data tidak boleh kosong";
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: _longitudeController,
-              decoration: InputDecoration(labelText: "Longitude"),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Data tidak boleh kosong";
-                }
-                return null;
-              },
-            ),
-            SizedBox(
-              height: 25,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  saveWisata().then((value) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => NavAdmin(),
-                      ),
-                    );
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            children: [
+              TextFormField(
+                controller: _nameController,
+                decoration: InputDecoration(
+                  labelText: "Nama Wisata",
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Data tidak boleh kosong";
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 16),
+              DropdownButtonFormField<int>(
+                decoration: InputDecoration(
+                  labelText: "Jenis Wisata",
+                  border: OutlineInputBorder(),
+                ),
+                value: _selectedJenisWisata,
+                items: [
+                  DropdownMenuItem(value: 1, child: Text("Wisata Alam")),
+                  DropdownMenuItem(value: 2, child: Text("Wisata Edukasi")),
+                  DropdownMenuItem(value: 3, child: Text("Wisata Belanja")),
+                  DropdownMenuItem(value: 4, child: Text("Wisata Sejarah")),
+                  DropdownMenuItem(value: 5, child: Text("Wisata Kuliner")),
+                ],
+                onChanged: (value) {
+                  setState(() {
+                    _selectedJenisWisata = value!;
                   });
-                }
-              },
-              child: Text('Save'),
-            )
-          ],
+                },
+                validator: (value) {
+                  if (value == null) {
+                    return "Data tidak boleh kosong";
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 16),
+              TextFormField(
+                controller: _gambarController,
+                decoration: InputDecoration(
+                  labelText: "Gambar",
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Data tidak boleh kosong";
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 16),
+              TextFormField(
+                controller: _deskripsiController,
+                decoration: InputDecoration(
+                  labelText: "Deskripsi",
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Data tidak boleh kosong";
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 16),
+              TextFormField(
+                controller: _alamatController,
+                decoration: InputDecoration(
+                  labelText: "Alamat",
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Data tidak boleh kosong";
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 16),
+              TextFormField(
+                controller: _latitudeController,
+                decoration: InputDecoration(
+                  labelText: "Latitude",
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Data tidak boleh kosong";
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 16),
+              TextFormField(
+                controller: _longitudeController,
+                decoration: InputDecoration(
+                  labelText: "Longitude",
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Data tidak boleh kosong";
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 25),
+              ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    saveWisata().then((value) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => NavAdmin(),
+                        ),
+                      );
+                    });
+                  }
+                },
+                child: Text('Save'),
+              ),
+              SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('Back'),
+              ),
+            ],
+          ),
         ),
       ),
     );

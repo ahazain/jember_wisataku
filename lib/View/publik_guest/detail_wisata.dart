@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:jember_wisataku/widget/widget_support.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:jember_wisataku/Maps/maps.dart';
@@ -92,7 +93,7 @@ class _DetailWisataState extends State<DetailWisata> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.all(20.0),
+          margin: EdgeInsets.all(40.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -114,7 +115,7 @@ class _DetailWisataState extends State<DetailWisata> {
               Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
                 Text(
                   attraction['nama_wisata'] ?? '',
-                  style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                  style: AppWidget.bold2TextFieldStyle(),
                 ),
                 SizedBox(height: 10),
                 Text(

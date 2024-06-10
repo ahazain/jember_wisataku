@@ -41,6 +41,7 @@ class _readEventState extends State<readEvent> {
         ),
         centerTitle: true,
         backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
       ),
       body: Stack(
         children: [

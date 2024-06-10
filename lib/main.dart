@@ -6,6 +6,7 @@ import 'package:jember_wisataku/View/admin/kelola_wisata/read_wisata.dart';
 import 'package:jember_wisataku/View/admin/nav_admin.dart';
 import 'package:jember_wisataku/View/publik_guest/akun_guest.dart';
 import 'package:jember_wisataku/View/publik_guest/nav_guest.dart';
+import 'package:jember_wisataku/View/publik_guest/splash.dart';
 import 'package:jember_wisataku/View/publik_regis/nav_regis.dart';
 
 void main() {
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       // home: Splash(),
-      home: nav_guest(),
+      home: Splash(),
     );
   }
 }

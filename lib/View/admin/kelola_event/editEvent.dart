@@ -20,9 +20,16 @@ class EditEvent extends StatefulWidget {
 class _EditEventState extends State<EditEvent> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController _nameController = TextEditingController();
-
   TextEditingController _gambarController = TextEditingController();
   TextEditingController _deskripsiController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController.text = widget.wisata['nama_acara'];
+    _gambarController.text = widget.wisata['gambar'];
+    _deskripsiController.text = widget.wisata['deskripsi'];
+  }
 
   Future updateEvent() async {
     try {
@@ -81,60 +88,89 @@ class _EditEventState extends State<EditEvent> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Wisata'),
+        title: Text('Edit Acara Tahunan'),
+        automaticallyImplyLeading: false,
       ),
-      body: Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            TextFormField(
-              controller: _nameController..text = widget.wisata['nama_acara'],
-              decoration: InputDecoration(labelText: "Nama Wisata"),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Data tidak boleh kosong";
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: _gambarController..text = widget.wisata['gambar'],
-              decoration: InputDecoration(labelText: "Gambar"),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Data tidak boleh kosong";
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: _deskripsiController
-                ..text = widget.wisata['deskripsi'],
-              decoration: InputDecoration(labelText: "Deskripsi"),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Data tidak boleh kosong";
-                }
-                return null;
-              },
-            ),
-            SizedBox(
-              height: 25,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  updateEvent().then((value) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => NavAdmin()),
-                    );
-                  });
-                }
-              },
-              child: Text('Update'),
-            )
-          ],
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              TextFormField(
+                controller: _nameController,
+                decoration: InputDecoration(
+                  labelText: "Nama Wisata",
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Data tidak boleh kosong";
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 16),
+              TextFormField(
+                controller: _gambarController,
+                decoration: InputDecoration(
+                  labelText: "Gambar",
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Data tidak boleh kosong";
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 16),
+              TextFormField(
+                controller: _deskripsiController,
+                decoration: InputDecoration(
+                  labelText: "Deskripsi",
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Data tidak boleh kosong";
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 25),
+              ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    updateEvent().then((value) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => NavAdmin(),
+                        ),
+                      );
+                    });
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  minimumSize:
+                      Size(double.infinity, 48), // Lebar maksimum tombol
+                ),
+                child: Text('Update'),
+              ),
+              SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                style: ElevatedButton.styleFrom(
+                  minimumSize:
+                      Size(double.infinity, 48), // Lebar maksimum tombol
+                ),
+                child: Text('Back'),
+              ),
+            ],
+          ),
         ),
       ),
     );

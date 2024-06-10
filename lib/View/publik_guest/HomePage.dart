@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
 
           // Bagian atas
           Positioned(
-            top: 20.0,
+            top: 34.0,
             left: 17.0,
             right: 10.0,
             child: Column(
@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> {
                 Text("Hi, Wisatawan",
                     style: AppWidget.boldTextFieldStyle().copyWith(
                         color: const Color.fromARGB(255, 93, 93, 93))),
-                SizedBox(height: 10.0),
+                SizedBox(height: 4.0),
                 Text("Jember Indah",
                     style: AppWidget.headTextFieldStyle().copyWith(
                         color: const Color.fromARGB(255, 93, 93, 93))),
@@ -92,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                             borderRadius: BorderRadius.circular(17.0),
                             borderSide: BorderSide.none,
                           ),
-                          hintText: "eg. wisata kawah ijen",
+                          hintText: "eg. pantai nanggelan",
                           hintStyle: TextStyle(
                             color: Colors.grey,
                           ),
@@ -185,10 +185,10 @@ class _HomePageState extends State<HomePage> {
 
           // Konten yang dapat digulir
           Positioned.fill(
-            top: 150.0,
+            top: 180.0,
             child: SingleChildScrollView(
               child: Container(
-                margin: EdgeInsets.only(top: 20.0, left: 17.0, right: 10.0),
+                margin: EdgeInsets.only(top: 20.0, left: 10.0, right: 10.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: _buildTouristAttractions(context),
@@ -222,7 +222,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            SizedBox(height: 20.0),
+            SizedBox(height: 0.0), //mengatur jarak list
           ],
         ),
       );
@@ -251,11 +251,11 @@ class _HomePageState extends State<HomePage> {
             right: 0,
             child: Container(
               color: Color.fromARGB(82, 159, 159, 159),
-              padding: EdgeInsets.symmetric(vertical: 20.0),
+              padding: EdgeInsets.symmetric(vertical: 26.0),
               child: Center(
                 child: Text(
                   name,
-                  style: AppWidget.headTextFieldStyle()
+                  style: AppWidget.boldTextFieldStyle()
                       .copyWith(color: Colors.white),
                 ),
               ),
@@ -264,7 +264,6 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
-    imageStacks.add(SizedBox(height: 10.0)); // Menambahkan jarak antar gambar
 
     return imageStacks;
   }

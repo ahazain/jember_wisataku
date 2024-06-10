@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jember_wisataku/View/publik_guest/nav_guest.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -51,7 +50,7 @@ class _akun_regisState extends State<akun_regis> {
       String? newName = _nameController.text;
       String? accessToken = prefs.getString('access_token');
 
-      if (accessToken != null && newName.isNotEmpty) {
+      if (accessToken != null && newName!.isNotEmpty) {
         print('Access token: $accessToken');
         print('New name: $newName');
 
@@ -83,15 +82,51 @@ class _akun_regisState extends State<akun_regis> {
     }
   }
 
+  Future<void> _confirmLogout() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible:
+          false, // dialog tidak bisa ditutup dengan mengetuk di luar
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Konfirmasi Logout'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Anda yakin ingin keluar?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Tidak'),
+              onPressed: () {
+                Navigator.of(context)
+                    .pop(); // Tutup dialog tanpa melakukan logout
+              },
+            ),
+            TextButton(
+              child: const Text('Ya'),
+              onPressed: () {
+                _logout(); // Lakukan logout
+                Navigator.of(context).pop(); // Tutup dialog setelah logout
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Future<void> _logout() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-
       String? accessToken = prefs.getString('access_token');
 
       if (accessToken != null) {
         final response = await http.post(
-          Uri.parse('http://10.0.2.2:8000/api/auth/logout'),
+          Uri.parse(
+              'https://jemberwisataapi-production.up.railway.app/api/auth/logout'),
           headers: <String, String>{
             'Content-Type': 'application/json',
             'Authorization': 'Bearer $accessToken',
@@ -129,8 +164,11 @@ class _akun_regisState extends State<akun_regis> {
       backgroundColor: const Color.fromARGB(255, 246, 246, 248),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 246, 246, 248),
-        title:
-            Text('Profil', style: TextStyle(fontSize: 24, color: Colors.black)),
+        title: Text(
+          'Profil',
+          style: TextStyle(fontSize: 24, color: Colors.black),
+        ),
+        automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -164,14 +202,16 @@ class _akun_regisState extends State<akun_regis> {
                   onPressed: _toggleEdit,
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
-                        const Color(0xFF00AF2C)),
+                      _isEditing ? const Color(0xFF00AF2C) : Colors.grey,
+                    ),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15.0),
                       ),
                     ),
                     minimumSize: MaterialStateProperty.all(
-                        const Size(double.infinity, 50)),
+                      const Size(double.infinity, 50),
+                    ),
                   ),
                   child: Text(
                     _isEditing ? 'Simpan' : 'Edit',
@@ -180,20 +220,24 @@ class _akun_regisState extends State<akun_regis> {
                 ),
                 const SizedBox(height: 10),
                 ElevatedButton(
-                  onPressed: _logout,
+                  onPressed: _confirmLogout,
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
-                        const Color(0xFFB4211C)),
+                      const Color(0xFFB4211C),
+                    ),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15.0),
                       ),
                     ),
                     minimumSize: MaterialStateProperty.all(
-                        const Size(double.infinity, 50)),
+                      const Size(double.infinity, 50),
+                    ),
                   ),
-                  child: Text("Keluar",
-                      style: TextStyle(fontSize: 18, color: Colors.white)),
+                  child: Text(
+                    "Keluar",
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  ),
                 ),
               ],
             ),

@@ -38,6 +38,7 @@ class _readWisataState extends State<readWisata> {
         ),
         centerTitle: true,
         backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
       ),
       body: Stack(
         children: [
@@ -84,8 +85,8 @@ class _readWisataPageContentState extends State<readWisataPageContent> {
 
   Future<List<Map<String, dynamic>>> _getWisata() async {
     try {
-      final response =
-          await http.get(Uri.parse('https://jemberwisataapi-production.up.railway.app/api/wisata'));
+      final response = await http.get(Uri.parse(
+          'https://jemberwisataapi-production.up.railway.app/api/wisata'));
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = json.decode(response.body);
         final List<dynamic>? data = responseData['data'];
@@ -98,6 +99,8 @@ class _readWisataPageContentState extends State<readWisataPageContent> {
                     'jenis_wisata_id': item['jenis_wisata_id'].toString(),
                     'deskripsi': item['deskripsi'],
                     'alamat': item['alamat'],
+                    'latitude': item['latitude'].toString(),
+                    'longitude': item['longitude'].toString(),
                   })
               .toList();
         }

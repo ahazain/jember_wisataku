@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:jember_wisataku/View/publik_guest/nav_guest.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:jember_wisataku/widget/widget_support.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Akun_Admin extends StatefulWidget {
   const Akun_Admin({Key? key}) : super(key: key);
@@ -17,6 +15,7 @@ class _Akun_AdminState extends State<Akun_Admin> {
   bool _isEditing = false;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+  String? _userId;
 
   @override
   void initState() {
@@ -28,9 +27,20 @@ class _Akun_AdminState extends State<Akun_Admin> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? name = prefs.getString('name');
     String? email = prefs.getString('email');
+    String? userId = prefs.getString('user_id');
     setState(() {
       _nameController.text = name ?? '';
       _emailController.text = email ?? '';
+      _userId = userId;
+    });
+  }
+
+  void _toggleEdit() {
+    setState(() {
+      if (_isEditing) {
+        _saveName();
+      }
+      _isEditing = !_isEditing;
     });
   }
 
@@ -40,11 +50,12 @@ class _Akun_AdminState extends State<Akun_Admin> {
       String? newName = _nameController.text;
       String? accessToken = prefs.getString('access_token');
 
-      if (accessToken != null && newName.isNotEmpty) {
+      if (accessToken != null && newName!.isNotEmpty) {
         print('Access token: $accessToken');
         print('New name: $newName');
 
         final response = await http.put(
+          //https://jemberwisataapi-production.up.railway.app/api/wisata
           Uri.parse(
               'https://jemberwisataapi-production.up.railway.app/api/auth/update'),
           headers: <String, String>{
@@ -71,10 +82,45 @@ class _Akun_AdminState extends State<Akun_Admin> {
     }
   }
 
+  Future<void> _confirmLogout() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible:
+          false, // dialog tidak bisa ditutup dengan mengetuk di luar
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Konfirmasi Logout'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Anda yakin ingin keluar?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Tidak'),
+              onPressed: () {
+                Navigator.of(context)
+                    .pop(); // Tutup dialog tanpa melakukan logout
+              },
+            ),
+            TextButton(
+              child: const Text('Ya'),
+              onPressed: () {
+                _logout(); // Lakukan logout
+                Navigator.of(context).pop(); // Tutup dialog setelah logout
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Future<void> _logout() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-
       String? accessToken = prefs.getString('access_token');
 
       if (accessToken != null) {
@@ -112,22 +158,17 @@ class _Akun_AdminState extends State<Akun_Admin> {
     }
   }
 
-  void _toggleEdit() {
-    setState(() {
-      if (_isEditing) {
-        _saveName();
-      }
-      _isEditing = !_isEditing;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 246, 246, 248),
+      backgroundColor: const Color.fromARGB(255, 246, 246, 248),
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 246, 246, 248),
-        title: Text('Profil', style: AppWidget.head3TextFieldStyle()),
+        backgroundColor: const Color.fromARGB(255, 246, 246, 248),
+        title: Text(
+          'Profil',
+          style: TextStyle(fontSize: 24, color: Colors.black),
+        ),
+        automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -136,73 +177,67 @@ class _Akun_AdminState extends State<Akun_Admin> {
             child: Column(
               children: [
                 Stack(
-                  children: [
+                  children: const [
                     CircleAvatar(
                       radius: 50,
                       backgroundImage: NetworkImage(
                           'https://media.istockphoto.com/id/1131348804/id/vektor/ikon-pengisian-linier-wanita-bisnis-vector-gadis-bisnis-avatar-gambar-profil-gambar-garis.jpg?s=170667a&w=0&k=20&c=ixi0KyyovtLthGlo4MCephen0iZZLnF0pj8twL7qEmE='),
                     ),
-                    // Uncomment this if you want to use the edit icon on the avatar
-                    // Positioned(
-                    //   bottom: 0,
-                    //   right: 0,
-                    //   child: CircleAvatar(
-                    //     backgroundColor: Colors.white,
-                    //     radius: 20,
-                    //     child: IconButton(
-                    //       icon: Icon(Icons.edit, color: Color(0xFF44DB3C)),
-                    //       onPressed: _toggleEdit,
-                    //     ),
-                    //   ),
-                    // ),
                   ],
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 _buildTextField(
                   controller: _nameController,
                   icon: Icons.person,
                   isEditing: _isEditing,
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 _buildTextField(
                   controller: _emailController,
                   icon: Icons.email,
-                  isEditing: _isEditing,
+                  isEditing: false,
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: _toggleEdit,
                   style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Color(0xFF00AF2C)),
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                      _isEditing ? const Color(0xFF00AF2C) : Colors.grey,
+                    ),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15.0),
                       ),
                     ),
-                    minimumSize:
-                        MaterialStateProperty.all(Size(double.infinity, 50)),
+                    minimumSize: MaterialStateProperty.all(
+                      const Size(double.infinity, 50),
+                    ),
                   ),
                   child: Text(
                     _isEditing ? 'Simpan' : 'Edit',
-                    style: AppWidget.labelbutton(),
+                    style: TextStyle(fontSize: 18, color: Colors.white),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 ElevatedButton(
-                  onPressed: _logout,
+                  onPressed: _confirmLogout,
                   style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Color(0xFFB4211C)),
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                      const Color(0xFFB4211C),
+                    ),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15.0),
                       ),
                     ),
-                    minimumSize:
-                        MaterialStateProperty.all(Size(double.infinity, 50)),
+                    minimumSize: MaterialStateProperty.all(
+                      const Size(double.infinity, 50),
+                    ),
                   ),
-                  child: Text("Keluar", style: AppWidget.labelbutton()),
+                  child: Text(
+                    "Keluar",
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  ),
                 ),
               ],
             ),
@@ -221,10 +256,10 @@ class _Akun_AdminState extends State<Akun_Admin> {
       controller: controller,
       enabled: isEditing,
       decoration: InputDecoration(
-        prefixIcon: Icon(icon, color: Color(0xFF1C1C2D)),
+        prefixIcon: Icon(icon, color: const Color(0xFF1C1C2D)),
         filled: true,
         fillColor: const Color.fromARGB(255, 223, 223, 223),
-        contentPadding: EdgeInsets.all(15),
+        contentPadding: const EdgeInsets.all(15),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide.none,

@@ -1,27 +1,30 @@
 import 'package:flutter/material.dart';
 
+//UATAMA
 class AppWidget {
   static TextStyle boldTextFieldStyle() {
     return TextStyle(
         color: Colors.black,
         fontFamily: 'Poppins',
-        fontSize: 15.0,
+        fontSize: 22.0,
         fontWeight: FontWeight.bold);
   }
 
+//TEXT
   static TextStyle bold2TextFieldStyle() {
     return TextStyle(
         color: Colors.black,
         fontFamily: 'Poppins',
-        fontSize: 19.0,
+        fontSize: 16.0,
         fontWeight: FontWeight.bold);
   }
 
+//Utama
   static TextStyle headTextFieldStyle() {
     return TextStyle(
         color: Colors.black,
         fontFamily: 'Poppins',
-        fontSize: 20.0,
+        fontSize: 36.0,
         fontWeight: FontWeight.bold);
   }
 
