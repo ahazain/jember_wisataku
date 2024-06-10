@@ -204,8 +204,7 @@ class _AcaraTahunanState extends State<AcaraTahunan> {
       return;
     }
     List filteredList = _fullListData.where((attraction) {
-      String attractionName =
-          attraction['nama_wisata'].toString().toLowerCase();
+      String attractionName = attraction['nama_acara'].toString().toLowerCase();
       return attractionName.contains(query.toLowerCase());
     }).toList();
 

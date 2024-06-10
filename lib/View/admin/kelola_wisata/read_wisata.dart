@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:jember_wisataku/View/admin/akun_admin.dart';
 import 'package:jember_wisataku/View/admin/kelola_wisata/delete_wisata.dart';
 import 'package:jember_wisataku/View/admin/kelola_wisata/editwisata.dart';
-import 'package:jember_wisataku/View/admin/nav_admin.dart';
+import 'package:jember_wisataku/NavigasiBar/nav_admin.dart';
 import 'package:jember_wisataku/View/admin/kelola_wisata/tambah_wisata.dart';
 
 class readWisata extends StatefulWidget {

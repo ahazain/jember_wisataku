@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jember_wisataku/View/publik_guest/nav_guest.dart';
+import 'package:jember_wisataku/NavigasiBar/nav_guest.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -47,15 +47,34 @@ class _Akun_AdminState extends State<Akun_Admin> {
   Future<void> _saveName() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? newName = _nameController.text;
+      String? newName = _nameController.text.trim(); // Trim whitespace
       String? accessToken = prefs.getString('access_token');
 
-      if (accessToken != null && newName!.isNotEmpty) {
+      if (newName!.isEmpty) {
+        // Menampilkan alert jika nama kosong setelah tombol simpan ditekan
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Peringatan'),
+              content: Text(
+                  'Kolom nama tidak boleh kosong. Data akan kembali riset'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      } else if (accessToken != null) {
         print('Access token: $accessToken');
         print('New name: $newName');
 
         final response = await http.put(
-          //https://jemberwisataapi-production.up.railway.app/api/wisata
           Uri.parse(
               'https://jemberwisataapi-production.up.railway.app/api/auth/update'),
           headers: <String, String>{
@@ -70,11 +89,30 @@ class _Akun_AdminState extends State<Akun_Admin> {
         if (response.statusCode == 200) {
           print('Update berhasil: ${response.body}');
           await prefs.setString('name', newName);
+
+          // Menampilkan alert ketika data berhasil diubah
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Sukses'),
+                content: Text('Data berhasil diubah.'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('OK'),
+                  ),
+                ],
+              );
+            },
+          );
         } else {
           print('Update gagal: ${response.statusCode}');
         }
       } else {
-        print('Token not found or name is empty');
+        print('Token not found');
       }
     } catch (e, stackTrace) {
       print('Error: $e');

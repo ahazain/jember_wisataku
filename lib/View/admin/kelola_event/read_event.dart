@@ -7,7 +7,7 @@ import 'package:jember_wisataku/View/admin/kelola_event/editEvent.dart';
 import 'package:jember_wisataku/View/admin/kelola_event/tambah_event.dart';
 import 'package:jember_wisataku/View/admin/kelola_wisata/delete_wisata.dart';
 import 'package:jember_wisataku/View/admin/kelola_wisata/editwisata.dart';
-import 'package:jember_wisataku/View/admin/nav_admin.dart';
+import 'package:jember_wisataku/NavigasiBar/nav_admin.dart';
 import 'package:jember_wisataku/View/admin/kelola_wisata/tambah_wisata.dart';
 
 class readEvent extends StatefulWidget {

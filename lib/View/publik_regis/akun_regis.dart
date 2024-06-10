@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jember_wisataku/View/publik_guest/nav_guest.dart';
+import 'package:jember_wisataku/NavigasiBar/nav_guest.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -50,12 +50,31 @@ class _akun_regisState extends State<akun_regis> {
       String? newName = _nameController.text;
       String? accessToken = prefs.getString('access_token');
 
-      if (accessToken != null && newName!.isNotEmpty) {
+      if (newName!.isEmpty) {
+        // Menampilkan alert jika nama kosong setelah tombol simpan ditekan
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Peringatan'),
+              content: Text(
+                  'Kolom nama tidak boleh kosong. Data akan kembali riset'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      } else if (accessToken != null) {
         print('Access token: $accessToken');
         print('New name: $newName');
 
         final response = await http.put(
-          //https://jemberwisataapi-production.up.railway.app/api/wisata
           Uri.parse(
               'https://jemberwisataapi-production.up.railway.app/api/auth/update'),
           headers: <String, String>{
@@ -66,10 +85,26 @@ class _akun_regisState extends State<akun_regis> {
             'name': newName,
           }),
         );
-
         if (response.statusCode == 200) {
           print('Update berhasil: ${response.body}');
           await prefs.setString('name', newName);
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Sukses'),
+                content: Text('Data berhasil diubah.'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('OK'),
+                  ),
+                ],
+              );
+            },
+          );
         } else {
           print('Update gagal: ${response.statusCode}');
         }

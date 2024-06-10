@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:jember_wisataku/Maps/maps.dart';
-import 'package:jember_wisataku/View/publik_guest/nav_guest.dart';
+import 'package:jember_wisataku/NavigasiBar/nav_guest.dart';
 
 class Detail_Acara extends StatefulWidget {
   final Map<String, dynamic> attraction;
@@ -43,7 +43,7 @@ class _Detail_AcaraState extends State<Detail_Acara> {
               SizedBox(height: 20.0),
               Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
                 Text(
-                  attraction['nama_wisata'] ?? '',
+                  attraction['nama_acara'] ?? '',
                   style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 10),

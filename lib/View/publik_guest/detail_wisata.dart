@@ -4,7 +4,7 @@ import 'package:jember_wisataku/widget/widget_support.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:jember_wisataku/Maps/maps.dart';
-import 'package:jember_wisataku/View/publik_guest/nav_guest.dart';
+import 'package:jember_wisataku/NavigasiBar/nav_guest.dart';
 
 class DetailWisata extends StatefulWidget {
   final Map<String, dynamic> attraction;

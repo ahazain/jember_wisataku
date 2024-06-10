@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:jember_wisataku/View/publik_guest/nav_guest.dart';
+import 'package:jember_wisataku/NavigasiBar/nav_guest.dart';
 import 'package:jember_wisataku/widget/widget_support.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 

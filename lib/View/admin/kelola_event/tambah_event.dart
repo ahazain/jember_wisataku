@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
-import 'package:jember_wisataku/View/admin/nav_admin.dart';
+import 'package:jember_wisataku/NavigasiBar/nav_admin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class tambah_event extends StatefulWidget {
