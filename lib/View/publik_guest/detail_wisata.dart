@@ -69,11 +69,7 @@ class _DetailWisataState extends State<DetailWisata> {
                 TextButton(
                   child: Text('OK'),
                   onPressed: () {
-                    Navigator.of(context).pop();
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => nav_guest()),
-                    );
+                    Navigator.of(context).pop(); // Menutup dialog
                   },
                 ),
               ],
@@ -122,122 +118,134 @@ class _DetailWisataState extends State<DetailWisata> {
               ),
               SizedBox(height: 20.0),
               Center(
-                child: Image.network(
-                  attraction['gambar'] ?? '',
-                  height: 200,
+                child: Column(
+                  children: [
+                    Image.network(
+                      attraction['gambar'] ?? '',
+                      height: 200,
+                    ),
+                    SizedBox(height: 20.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Column(
+                          children: [
+                            RatingWidget(
+                                rating: averageRating.round(), size: 20),
+                            SizedBox(height: 5.0),
+                            Text(
+                              averageRating.toStringAsFixed(1),
+                              style: TextStyle(
+                                  fontSize: 16.0, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        SizedBox(width: 20),
+                        ElevatedButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                int selectedRating = userRatingValue;
+                                return AlertDialog(
+                                  title: Text('Beri Rating'),
+                                  content: StatefulBuilder(
+                                    builder: (context, setState) {
+                                      return Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: List.generate(5, (index) {
+                                          return IconButton(
+                                            icon: Icon(
+                                              index < selectedRating
+                                                  ? Icons.star
+                                                  : Icons.star_border,
+                                              color: Colors.amber,
+                                            ),
+                                            onPressed: () {
+                                              setState(() {
+                                                selectedRating = index + 1;
+                                              });
+                                            },
+                                          );
+                                        }),
+                                      );
+                                    },
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('Batal'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        addRating(selectedRating);
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('Kirim'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          child: Text('Beri Rating'),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
               SizedBox(height: 20.0),
-              Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-                Text(
-                  attraction['nama_wisata'] ?? '',
-                  style: AppWidget.bold2TextFieldStyle(),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  attraction['deskripsi'] ?? '',
-                  style: TextStyle(fontSize: 16.0),
-                  textAlign: TextAlign.justify,
-                ),
-                SizedBox(height: 20.0),
-              ]),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    attraction['nama_wisata'] ?? '',
+                    style: AppWidget.bold2TextFieldStyle(),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    attraction['deskripsi'] ?? '',
+                    style: TextStyle(fontSize: 16.0),
+                    textAlign: TextAlign.justify,
+                  ),
+                  SizedBox(height: 20.0),
+                  Text(
+                    'Lokasi',
+                    style:
+                        TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 10.0),
+                  Text(
+                    attraction['alamat'] ?? '',
+                    style: TextStyle(fontSize: 16.0),
+                    textAlign: TextAlign.justify,
+                  ),
+                  SizedBox(height: 20.0),
+                ],
+              ),
               SizedBox(height: 20.0),
               Container(
                 margin: EdgeInsets.all(20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            children: [
-                              RatingWidget(
-                                  rating: averageRating.round(), size: 20),
-                              SizedBox(height: 5.0),
-                              Text(
-                                averageRating.toStringAsFixed(1),
-                                style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  int selectedRating = userRatingValue;
-                                  return AlertDialog(
-                                    title: Text('Beri Rating'),
-                                    content: StatefulBuilder(
-                                      builder: (context, setState) {
-                                        return Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: List.generate(5, (index) {
-                                            return IconButton(
-                                              icon: Icon(
-                                                index < selectedRating
-                                                    ? Icons.star
-                                                    : Icons.star_border,
-                                                color: Colors.amber,
-                                              ),
-                                              onPressed: () {
-                                                setState(() {
-                                                  selectedRating = index + 1;
-                                                });
-                                              },
-                                            );
-                                          }),
-                                        );
-                                      },
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text('Batal'),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          addRating(selectedRating);
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text('Kirim'),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                            },
-                            child: Text('Beri Rating'),
-                          ),
-                        ],
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Maps(attraction: attraction),
                       ),
-                    ),
-                    SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Maps(attraction: attraction),
-                          ),
-                        );
-                      },
-                      style: ButtonStyle(
-                        minimumSize: MaterialStateProperty.all(Size(
-                            double.infinity,
-                            42)), // Menetapkan lebar sesuai dengan panjang layar dan tinggi 50 piksel
-                      ),
-                      child: Text('Lihat di Peta'),
-                    ),
-                  ],
+                    );
+                  },
+                  style: ButtonStyle(
+                    minimumSize: MaterialStateProperty.all(Size(
+                      double.infinity,
+                      42,
+                    )),
+                  ),
+                  child: Text('Lihat di Peta'),
                 ),
               ),
             ],

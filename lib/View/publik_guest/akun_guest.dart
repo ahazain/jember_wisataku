@@ -3,7 +3,7 @@ import 'package:jember_wisataku/View/admin/kelola_wisata/read_wisata.dart';
 import 'package:jember_wisataku/View/admin/nav_admin.dart';
 import 'package:jember_wisataku/View/publik_guest/homepage.dart';
 
-import 'package:jember_wisataku/View/publik_regis/nav_regis.dart';
+import 'package:jember_wisataku/NavigasiBar/nav_regis.dart';
 import 'package:jember_wisataku/widget/widget_support.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
