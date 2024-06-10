@@ -4,6 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:jember_wisataku/View/admin/kelola_wisata/read_wisata.dart';
 import 'package:jember_wisataku/View/admin/nav_admin.dart';
 import 'package:jember_wisataku/View/publik_guest/homepage.dart';
+import 'package:jember_wisataku/View/publik_guest/nav_guest.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class tambah_wisata extends StatefulWidget {
   const tambah_wisata({super.key});
@@ -19,24 +21,52 @@ class _tambah_wisataState extends State<tambah_wisata> {
   TextEditingController _gambarController = TextEditingController();
   TextEditingController _deskripsiController = TextEditingController();
   TextEditingController _alamatController = TextEditingController();
+  TextEditingController _latitudeController = TextEditingController();
+  TextEditingController _longitudeController = TextEditingController();
 
   Future saveWisata() async {
     try {
+      // Ambil SharedPreferences instance
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      // Ambil access_token dari SharedPreferences
+      String? accessToken = prefs.getString('access_token');
+
+      // Jika access_token tidak ditemukan, arahkan pengguna ke tampilan akun_publik
+      if (accessToken == null || accessToken.isEmpty) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => nav_guest()),
+        );
+        return;
+      }
+
+      // Lanjutkan dengan pengiriman request HTTP dengan Bearer Token
       final response = await http.post(
-        Uri.parse('http://192.168.1.72:8000/api/wisata'),
-        body: {
+        Uri.parse(
+            'https://jemberwisataapi-production.up.railway.app/api/wisata'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $accessToken', // Sertakan Bearer Token
+        },
+        body: jsonEncode(<String, dynamic>{
           "jenis_wisata_id": _jeniswisataController.text,
           "nama_wisata": _nameController.text,
           "gambar": _gambarController.text,
           "deskripsi": _deskripsiController.text,
           "alamat": _alamatController.text,
-        },
+        }),
       );
+
       if (response.statusCode == 200) {
+        // Jika berhasil, kembalikan data JSON yang diterima
         return json.decode(response.body);
+      } else {
+        // Jika gagal, lemparkan Exception
+        throw Exception('Failed to save data wisata');
       }
     } catch (e) {
-      print(e);
+      print('Error saving wisata: $e');
       return null;
     }
   }
@@ -48,6 +78,8 @@ class _tambah_wisataState extends State<tambah_wisata> {
     _gambarController.dispose();
     _deskripsiController.dispose();
     _alamatController.dispose();
+    _latitudeController.dispose();
+    _longitudeController.dispose();
     super.dispose();
   }
 
@@ -104,6 +136,26 @@ class _tambah_wisataState extends State<tambah_wisata> {
             TextFormField(
               controller: _alamatController,
               decoration: InputDecoration(labelText: "Alamat"),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Data tidak boleh kosong";
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: _latitudeController,
+              decoration: InputDecoration(labelText: "Latitude"),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Data tidak boleh kosong";
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: _longitudeController,
+              decoration: InputDecoration(labelText: "Longitude"),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return "Data tidak boleh kosong";

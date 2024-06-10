@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:jember_wisataku/View/publik_guest/acara_tahunan.dart';
+import 'package:jember_wisataku/View/publik_guest/detail_AcaraTahunan.dart';
 import 'package:jember_wisataku/View/publik_guest/homepage.dart';
 import 'package:jember_wisataku/View/publik_regis/akun_regis.dart';
 
@@ -19,12 +20,12 @@ class _Button_nonnav_regisState extends State<nav_regis> {
   late List<Widget> pages;
   late Widget curretPages;
   late HomePage homapage;
-  late Event acara_tahunan;
+  late AcaraTahunan acara_tahunan;
   late akun_regis Akun;
   @override
   void initState() {
     homapage = HomePage();
-    acara_tahunan = Event();
+    acara_tahunan = AcaraTahunan();
     Akun = akun_regis();
     pages = [homapage, acara_tahunan, Akun];
     super.initState();

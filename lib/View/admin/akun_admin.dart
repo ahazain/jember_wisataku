@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:jember_wisataku/View/publik_guest/akun_guest.dart';
 import 'package:jember_wisataku/View/publik_guest/nav_guest.dart';
 
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:jember_wisataku/widget/widget_support.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Akun_Admin extends StatefulWidget {
   const Akun_Admin({Key? key}) : super(key: key);
@@ -19,20 +21,102 @@ class _Akun_AdminState extends State<Akun_Admin> {
   @override
   void initState() {
     super.initState();
-    _nameController.text = 'Surahki'; // Ganti dengan nama pengguna sebenarnya
-    _emailController.text =
-        'surahki@example.com'; // Ganti dengan email pengguna sebenarnya
+    _fetchUserData();
   }
 
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _emailController.dispose();
-    super.dispose();
+  Future<void> _fetchUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? name = prefs.getString('name');
+    String? email = prefs.getString('email');
+    setState(() {
+      _nameController.text = name ?? '';
+      _emailController.text = email ?? '';
+    });
+  }
+
+  Future<void> _saveName() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? newName = _nameController.text;
+      String? accessToken = prefs.getString('access_token');
+
+      if (accessToken != null && newName.isNotEmpty) {
+        print('Access token: $accessToken');
+        print('New name: $newName');
+
+        final response = await http.put(
+          Uri.parse(
+              'https://jemberwisataapi-production.up.railway.app/api/auth/update'),
+          headers: <String, String>{
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $accessToken',
+          },
+          body: jsonEncode(<String, String>{
+            'name': newName,
+          }),
+        );
+
+        if (response.statusCode == 200) {
+          print('Update berhasil: ${response.body}');
+          await prefs.setString('name', newName);
+        } else {
+          print('Update gagal: ${response.statusCode}');
+        }
+      } else {
+        print('Token not found or name is empty');
+      }
+    } catch (e, stackTrace) {
+      print('Error: $e');
+      print('Stack Trace: $stackTrace');
+    }
+  }
+
+  Future<void> _logout() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      String? accessToken = prefs.getString('access_token');
+
+      if (accessToken != null) {
+        final response = await http.post(
+          Uri.parse(
+              'https://jemberwisataapi-production.up.railway.app/api/auth/logout'),
+          headers: <String, String>{
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $accessToken',
+          },
+          body: jsonEncode(<String, String>{
+            'token': accessToken,
+          }),
+        );
+
+        if (response.statusCode == 200) {
+          await prefs.clear();
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => nav_guest(),
+            ),
+          );
+          print('Logout berhasil: ${response.body}');
+        } else {
+          print('Logout gagal: ${response.statusCode}');
+          print('Response body: ${response.body}');
+        }
+      } else {
+        print('Access token tidak ditemukan di SharedPreferences');
+      }
+    } catch (e, stackTrace) {
+      print('Error: $e');
+      print('Stack Trace: $stackTrace');
+    }
   }
 
   void _toggleEdit() {
     setState(() {
+      if (_isEditing) {
+        _saveName();
+      }
       _isEditing = !_isEditing;
     });
   }
@@ -106,14 +190,7 @@ class _Akun_AdminState extends State<Akun_Admin> {
                 ),
                 SizedBox(height: 10),
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => nav_guest(),
-                      ),
-                    );
-                  },
+                  onPressed: _logout,
                   style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Color(0xFFB4211C)),

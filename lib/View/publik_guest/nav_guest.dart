@@ -19,14 +19,14 @@ class _nav_guestState extends State<nav_guest> {
   late List<Widget> pages;
   late Widget curretPages;
   late HomePage homapage;
-  late Event acara_tahunan;
-  late AkunGuestPage akun;
+  late AcaraTahunan acara_tahunan;
+  late AkunPage akun;
 
   @override
   void initState() {
     homapage = HomePage();
-    acara_tahunan = Event();
-    akun = AkunGuestPage();
+    acara_tahunan = AcaraTahunan();
+    akun = AkunPage();
     pages = [homapage, acara_tahunan, akun];
     super.initState();
   }

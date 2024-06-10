@@ -16,8 +16,8 @@ class _HomePageState extends State<HomePage> {
 
   Future _getdata() async {
     try {
-      final response =
-          await http.get(Uri.parse('http://192.168.1.36:8000/api/wisata'));
+      final response = await http.get(Uri.parse(
+          'https://jemberwisataapi-production.up.railway.app/api/wisata'));
       if (response.statusCode == 200) {
         print('Response body: ${response.body}');
         final data = jsonDecode(response.body)['data'];

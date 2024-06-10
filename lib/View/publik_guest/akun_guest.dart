@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:jember_wisataku/View/admin/akun_admin.dart';
+import 'package:jember_wisataku/View/admin/kelola_wisata/read_wisata.dart';
 import 'package:jember_wisataku/View/admin/nav_admin.dart';
-import 'package:jember_wisataku/View/publik_guest/nav_guest.dart';
+import 'package:jember_wisataku/View/publik_guest/homepage.dart';
+
 import 'package:jember_wisataku/View/publik_regis/nav_regis.dart';
 import 'package:jember_wisataku/widget/widget_support.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
-class AkunGuestPage extends StatefulWidget {
-  const AkunGuestPage({super.key});
+class AkunPage extends StatefulWidget {
+  const AkunPage({super.key});
 
   @override
-  State<AkunGuestPage> createState() => _AkunGuestPageState();
+  State<AkunPage> createState() => _AkunPageState();
 }
 
-class _AkunGuestPageState extends State<AkunGuestPage> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+class _AkunPageState extends State<AkunPage> {
+  final TextEditingController _emailController =
+      TextEditingController(text: 'dev@gmail.com');
+  final TextEditingController _passwordController =
+      TextEditingController(text: 'dev123');
   final TextEditingController _registerEmailController =
       TextEditingController();
   final TextEditingController _registerPasswordController =
@@ -26,16 +32,104 @@ class _AkunGuestPageState extends State<AkunGuestPage> {
 
   String? _userType;
 
+  Future<void> _register() async {
+    String name = _registerUsernameController.text;
+    String email = _registerEmailController.text;
+    String password = _registerPasswordController.text;
+
+    final url = Uri.parse(
+        'https://jemberwisataapi-production.up.railway.app/api/auth/register');
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'name': name,
+        'email': email,
+        'password': password,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+      if (responseData['message'] == 'PENDAFTARAN BERHASIL') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Pendaftaran berhasil!')),
+        );
+        setState(() {
+          isLogin = true;
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text('Pendaftaran gagal: ${responseData['message']}')),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Pendaftaran gagal, periksa kembali data Anda')),
+      );
+    }
+  }
+
   Future<void> _login() async {
     String email = _emailController.text;
     String password = _passwordController.text;
 
-    if (email == 'admin@example.com' && password == 'admin123') {
-      _userType = 'admin';
-    } else if (email == 'user@example.com' && password == 'user123') {
-      _userType = 'user';
+    final url = Uri.parse(
+        'https://jemberwisataapi-production.up.railway.app/api/auth/login');
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'email': email,
+        'password': password,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseData = json.decode(response.body);
+      if (responseData['access_token'] != null) {
+        setState(() {
+          _userType = responseData['user']['role'];
+        });
+        print(responseData);
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('access_token', responseData['access_token']);
+        await prefs.setInt('id', responseData['user']['id']);
+        await prefs.setString('name', responseData['user']['name']);
+        await prefs.setString('email', responseData['user']['email']);
+        await prefs.setString('role', responseData['user']['role']);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Login berhasil!')),
+        );
+
+        if (_userType == 'admin') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Anda adalah ADMIN')),
+          );
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => NavAdmin()),
+          );
+        } else if (_userType == 'publik') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Anda adalah USER')),
+          );
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => nav_regis()),
+          );
+        }
+      }
     } else {
-      _userType = null;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Gagal masuk, periksa kembali kredensial Anda')),
+      );
     }
   }
 
@@ -164,21 +258,17 @@ class _AkunGuestPageState extends State<AkunGuestPage> {
           child: ElevatedButton(
             onPressed: () async {
               await _login();
-              if (_userType == 'admin') {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => NavAdmin()),
-                );
-              } else if (_userType == 'user') {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => nav_regis()),
-                );
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Email atau kata sandi salah')),
-                );
-              }
+              // if (_userType == 'admin') {
+              //   Navigator.pushReplacement(
+              //     context,
+              //     MaterialPageRoute(builder: (context) => NavAdmin()),
+              //   );
+              // } else if (_userType == 'user') {
+              //   Navigator.pushReplacement(
+              //     context,
+              //     MaterialPageRoute(builder: (context) => nav_regis()),
+              //   );
+              // }
             },
             style: ButtonStyle(
               backgroundColor:
@@ -258,8 +348,8 @@ class _AkunGuestPageState extends State<AkunGuestPage> {
         SizedBox(height: 20),
         Center(
           child: ElevatedButton(
-            onPressed: () {
-              // Implement your registration logic here
+            onPressed: () async {
+              await _register();
             },
             style: ButtonStyle(
               backgroundColor:

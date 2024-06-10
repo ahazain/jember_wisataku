@@ -4,35 +4,64 @@ import 'package:http/http.dart' as http;
 import 'package:jember_wisataku/View/admin/kelola_wisata/read_wisata.dart';
 import 'package:jember_wisataku/View/admin/nav_admin.dart';
 import 'package:jember_wisataku/View/publik_guest/homepage.dart';
+import 'package:jember_wisataku/View/publik_guest/nav_guest.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class tambahEvent extends StatefulWidget {
-  const tambahEvent({super.key});
+class tambah_event extends StatefulWidget {
+  const tambah_event({super.key});
 
   @override
-  State<tambahEvent> createState() => _tambahEventState();
+  State<tambah_event> createState() => _tambah_eventState();
 }
 
-class _tambahEventState extends State<tambahEvent> {
+class _tambah_eventState extends State<tambah_event> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController _nameController = TextEditingController();
+
   TextEditingController _gambarController = TextEditingController();
   TextEditingController _deskripsiController = TextEditingController();
 
-  Future saveWisata() async {
+  Future saveEvent() async {
     try {
+      // Ambil SharedPreferences instance
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      // Ambil access_token dari SharedPreferences
+      String? accessToken = prefs.getString('access_token');
+
+      // Jika access_token tidak ditemukan, arahkan pengguna ke tampilan akun_publik
+      if (accessToken == null || accessToken.isEmpty) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => NavAdmin()),
+        );
+        return;
+      }
+
+      // Lanjutkan dengan pengiriman request HTTP dengan Bearer Token
       final response = await http.post(
-        Uri.parse('http://192.168.1.72:8000/api/event'),
-        body: {
+        Uri.parse(
+            'https://jemberwisataapi-production.up.railway.app/api/event'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $accessToken', // Sertakan Bearer Token
+        },
+        body: jsonEncode(<String, dynamic>{
           "nama_acara": _nameController.text,
           "gambar": _gambarController.text,
           "deskripsi": _deskripsiController.text,
-        },
+        }),
       );
+
       if (response.statusCode == 200) {
+        // Jika berhasil, kembalikan data JSON yang diterima
         return json.decode(response.body);
+      } else {
+        // Jika gagal, lemparkan Exception
+        throw Exception('Failed to save data wisata');
       }
     } catch (e) {
-      print(e);
+      print('Error saving wisata: $e');
       return null;
     }
   }
@@ -42,6 +71,7 @@ class _tambahEventState extends State<tambahEvent> {
     _nameController.dispose();
     _gambarController.dispose();
     _deskripsiController.dispose();
+
     super.dispose();
   }
 
@@ -49,7 +79,7 @@ class _tambahEventState extends State<tambahEvent> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tambah Acara Tahunan'),
+        title: Text('Tambah Event'),
       ),
       body: Form(
         key: _formKey,
@@ -91,7 +121,7 @@ class _tambahEventState extends State<tambahEvent> {
             ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  saveWisata().then((value) {
+                  saveEvent().then((value) {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -102,7 +132,7 @@ class _tambahEventState extends State<tambahEvent> {
                 }
               },
               child: Text('Save'),
-            ),
+            )
           ],
         ),
       ),

@@ -5,16 +5,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:jember_wisataku/Maps/maps.dart';
 import 'package:jember_wisataku/View/publik_guest/nav_guest.dart';
 
-class DetailWisata extends StatefulWidget {
+class Detail_Acara extends StatefulWidget {
   final Map<String, dynamic> attraction;
 
-  const DetailWisata({Key? key, required this.attraction}) : super(key: key);
+  const Detail_Acara({Key? key, required this.attraction}) : super(key: key);
 
   @override
-  State<DetailWisata> createState() => _DetailWisataState();
+  State<Detail_Acara> createState() => _Detail_AcaraState();
 }
 
-class _DetailWisataState extends State<DetailWisata> {
+class _Detail_AcaraState extends State<Detail_Acara> {
   List<int> ratings = [];
   double averageRating = 0.0;
   int userRatingValue = 0;
@@ -204,17 +204,6 @@ class _DetailWisataState extends State<DetailWisata> {
                       ),
                     ),
                     SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Maps(attraction: attraction),
-                          ),
-                        );
-                      },
-                      child: Text('Lihat di Peta'),
-                    ),
                   ],
                 ),
               ),

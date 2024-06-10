@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:jember_wisataku/View/admin/kelola_wisata/read_wisata.dart';
 import 'package:jember_wisataku/View/admin/nav_admin.dart';
 import 'package:jember_wisataku/View/publik_guest/homepage.dart';
+import 'package:jember_wisataku/View/publik_guest/nav_guest.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EditEvent extends StatefulWidget {
   final Map<String, dynamic> wisata;
@@ -18,29 +20,49 @@ class EditEvent extends StatefulWidget {
 class _EditEventState extends State<EditEvent> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController _nameController = TextEditingController();
-  TextEditingController _jeniswisataController = TextEditingController();
+
   TextEditingController _gambarController = TextEditingController();
   TextEditingController _deskripsiController = TextEditingController();
-  TextEditingController _alamatController = TextEditingController();
 
-  Future updateWisata() async {
+  Future updateEvent() async {
     try {
+      // Ambil SharedPreferences instance
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      // Ambil access_token dari SharedPreferences
+      String? accessToken = prefs.getString('access_token');
+
+      // Jika access_token tidak ditemukan, arahkan pengguna ke tampilan akun_publik
+      if (accessToken == null || accessToken.isEmpty) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => NavAdmin()),
+        );
+        return;
+      }
+
       final response = await http.put(
-        Uri.parse('http://192.168.1.72:8000/api/event/' +
-            widget.wisata['id'.toString()]),
-        body: {
-          "nama_vent": _nameController.text,
+        Uri.parse(
+            'https://jemberwisataapi-production.up.railway.app/api/event/' +
+                widget.wisata['id'].toString()),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $accessToken', // Sertakan Bearer Token
+        },
+        body: jsonEncode(<String, dynamic>{
+          "nama_acara": _nameController.text,
           "gambar": _gambarController.text,
           "deskripsi": _deskripsiController.text,
-        },
+        }),
       );
+
       if (response.statusCode == 200) {
         return json.decode(response.body);
       } else {
-        throw Exception(' menyimpan wisata');
+        throw Exception('Failed to update data wisata');
       }
     } catch (e) {
-      print(e);
+      print('Error updating wisata: $e');
       return null;
     }
   }
@@ -48,10 +70,10 @@ class _EditEventState extends State<EditEvent> {
   @override
   void dispose() {
     _nameController.dispose();
-    _jeniswisataController.dispose();
+
     _gambarController.dispose();
     _deskripsiController.dispose();
-    _alamatController.dispose();
+
     super.dispose();
   }
 
@@ -59,26 +81,15 @@ class _EditEventState extends State<EditEvent> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Acara Tahunan'),
+        title: Text('Edit Wisata'),
       ),
       body: Form(
         key: _formKey,
         child: Column(
           children: [
             TextFormField(
-              controller: _nameController..text = widget.wisata['nama_event'],
-              decoration: InputDecoration(labelText: "Nama Acara Tahunan"),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Data tidak boleh kosong";
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: _jeniswisataController
-                ..text = widget.wisata['jenis_wisata_id'].toString(),
-              decoration: InputDecoration(labelText: "Jenis Wisata"),
+              controller: _nameController..text = widget.wisata['nama_acara'],
+              decoration: InputDecoration(labelText: "Nama Wisata"),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return "Data tidak boleh kosong";
@@ -107,23 +118,13 @@ class _EditEventState extends State<EditEvent> {
                 return null;
               },
             ),
-            TextFormField(
-              controller: _alamatController..text = widget.wisata['alamat'],
-              decoration: InputDecoration(labelText: "Alamat"),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Data tidak boleh kosong";
-                }
-                return null;
-              },
-            ),
             SizedBox(
               height: 25,
             ),
             ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  updateWisata().then((value) {
+                  updateEvent().then((value) {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => NavAdmin()),

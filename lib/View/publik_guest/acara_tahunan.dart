@@ -1,23 +1,24 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:jember_wisataku/View/publik_guest/detail_AcaraTahunan.dart';
 import 'package:jember_wisataku/View/publik_guest/detail_wisata.dart';
 import 'package:jember_wisataku/widget/widget_support.dart';
 
-class Event extends StatefulWidget {
+class AcaraTahunan extends StatefulWidget {
   @override
-  _EventState createState() => _EventState();
+  _AcaraTahunanState createState() => _AcaraTahunanState();
 }
 
-class _EventState extends State<Event> {
+class _AcaraTahunanState extends State<AcaraTahunan> {
   List _listdata = [];
   List _fullListData = [];
   TextEditingController _searchController = TextEditingController();
 
   Future _getdata() async {
     try {
-      final response =
-          await http.get(Uri.parse('http://192.168.1.72:8000/api/event'));
+      final response = await http.get(Uri.parse(
+          'https://jemberwisataapi-production.up.railway.app/api/event'));
       if (response.statusCode == 200) {
         print('Response body: ${response.body}');
         final data = jsonDecode(response.body)['data'];
@@ -140,7 +141,7 @@ class _EventState extends State<Event> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => DetailWisata(attraction: attraction),
+                    builder: (context) => Detail_Acara(attraction: attraction),
                   ),
                 );
               },
@@ -198,12 +199,14 @@ class _EventState extends State<Event> {
   void _search(String query) {
     if (query.isEmpty) {
       setState(() {
-        _listdata = List.from(_fullListData);
+        _listdata = List.from(
+            _fullListData); // Kembalikan ke daftar lengkap jika query kosong
       });
       return;
     }
     List filteredList = _fullListData.where((attraction) {
-      String attractionName = attraction['nama_acara'].toString().toLowerCase();
+      String attractionName =
+          attraction['nama_wisata'].toString().toLowerCase();
       return attractionName.contains(query.toLowerCase());
     }).toList();
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:jember_wisataku/View/admin/akun_admin.dart';
 import 'package:jember_wisataku/View/admin/kelola_event/delete_event.dart';
+import 'package:jember_wisataku/View/admin/kelola_event/editEvent.dart';
 import 'package:jember_wisataku/View/admin/kelola_event/tambah_event.dart';
 import 'package:jember_wisataku/View/admin/kelola_wisata/delete_wisata.dart';
 import 'package:jember_wisataku/View/admin/kelola_wisata/editwisata.dart';
@@ -55,7 +56,7 @@ class _readEventState extends State<readEvent> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => tambahEvent(),
+                        builder: (context) => tambah_event(),
                       ),
                     );
                   },
@@ -81,13 +82,13 @@ class _readEventPageContentState extends State<readEventPageContent> {
   @override
   void initState() {
     super.initState();
-    _fetchDataFuture = _getWisata();
+    _fetchDataFuture = _getEvent();
   }
 
-  Future<List<Map<String, dynamic>>> _getWisata() async {
+  Future<List<Map<String, dynamic>>> _getEvent() async {
     try {
-      final response =
-          await http.get(Uri.parse('http://192.168.1.72:8000/api/event'));
+      final response = await http.get(Uri.parse(
+          'https://jemberwisataapi-production.up.railway.app/api/event'));
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = json.decode(response.body);
         final List<dynamic>? data = responseData['data'];
@@ -95,9 +96,11 @@ class _readEventPageContentState extends State<readEventPageContent> {
           return data
               .map((item) => {
                     'id': item['id'].toString(),
-                    'gambar': item['gambar'],
-                    'nama_acara': item['nama_acara'],
-                    'deskripsi': item['deskripsi'],
+                    'gambar': item['gambar'] ??
+                        '', // tambahkan pengecekan null disini
+                    'nama_acara': item['nama_acara'] ??
+                        '', // tambahkan pengecekan null disini
+                    'deskripsi': item['deskripsi'] ?? '',
                   })
               .toList();
         }
@@ -157,7 +160,7 @@ class _readEventPageContentState extends State<readEventPageContent> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => Editwisata(
+                                builder: (context) => EditEvent(
                                     wisata: {...item, 'id': item['id']}),
                               ),
                             ).then((updatedWisata) {
@@ -215,9 +218,9 @@ class _readEventPageContentState extends State<readEventPageContent> {
                                     );
                                   },
                                 );
-
-                                // Panggil metode deleteEvent
-                                DeleteEvent.deleteEvent(item['id'].toString())
+                                // Panggil metode deleteWisata
+                                DeleteServiceEvent.deleteWisataEvent(
+                                        item['id'].toString())
                                     .then((success) {
                                   Navigator.of(context)
                                       .pop(); // Tutup dialog loading
@@ -235,7 +238,7 @@ class _readEventPageContentState extends State<readEventPageContent> {
                                         return AlertDialog(
                                           title: Text('Sukses'),
                                           content:
-                                              Text('Wisata berhasil dihapus'),
+                                              Text('Event berhasil dihapus'),
                                           actions: <Widget>[
                                             TextButton(
                                               onPressed: () {
@@ -254,7 +257,7 @@ class _readEventPageContentState extends State<readEventPageContent> {
                                         return AlertDialog(
                                           title: Text('Error'),
                                           content:
-                                              Text('Gagal menghapus wisata'),
+                                              Text('Gagal menghapus Event'),
                                           actions: <Widget>[
                                             TextButton(
                                               onPressed: () {
