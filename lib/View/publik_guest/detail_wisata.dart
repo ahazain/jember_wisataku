@@ -59,13 +59,29 @@ class _DetailWisataState extends State<DetailWisata> {
       String? accessToken = prefs.getString('access_token');
 
       if (accessToken == null || accessToken.isEmpty) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => nav_guest()),
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Login Diperlukan'),
+              content: Text('Silakan login untuk memberikan rating.'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => nav_guest()),
+                    );
+                  },
+                ),
+              ],
+            );
+          },
         );
         return;
       }
-
       final response = await http.post(
         Uri.parse(url),
         headers: <String, String>{
@@ -214,6 +230,11 @@ class _DetailWisataState extends State<DetailWisata> {
                           ),
                         );
                       },
+                      style: ButtonStyle(
+                        minimumSize: MaterialStateProperty.all(Size(
+                            double.infinity,
+                            42)), // Menetapkan lebar sesuai dengan panjang layar dan tinggi 50 piksel
+                      ),
                       child: Text('Lihat di Peta'),
                     ),
                   ],
