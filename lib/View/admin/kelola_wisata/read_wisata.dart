@@ -94,13 +94,13 @@ class _readWisataPageContentState extends State<readWisataPageContent> {
           return data
               .map((item) => {
                     'id': item['id'].toString(),
-                    'gambar': item['gambar'],
+                    'gambar': item['gambar'] ,
                     'nama_wisata': item['nama_wisata'],
                     'jenis_wisata_id': item['jenis_wisata_id'].toString(),
                     'deskripsi': item['deskripsi'],
                     'alamat': item['alamat'],
-                    'latitude': item['latitude'].toString(),
-                    'longitude': item['longitude'].toString(),
+                    'latitude': item['latitude'] .toString(),
+                    'longitude': item['longitude'] .toString(),
                   })
               .toList();
         }

@@ -36,7 +36,7 @@ class _tambah_wisataState extends State<tambah_wisata> {
       if (accessToken == null || accessToken.isEmpty) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => nav_guest()),
+          MaterialPageRoute(builder: (context) => NavAdmin()),
         );
         return;
       }
@@ -61,15 +61,23 @@ class _tambah_wisataState extends State<tambah_wisata> {
       );
 
       if (response.statusCode == 200) {
-        // Jika berhasil, kembalikan data JSON yang diterima
-        return json.decode(response.body);
+        var jsonResponse = json.decode(response.body);
+        print('Success: $jsonResponse');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Wisata saved successfully!')),
+        );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => NavAdmin()),
+        );
       } else {
-        // Jika gagal, lemparkan Exception
-        throw Exception('Failed to save data wisata');
+        throw Exception('Failed to save data WISATA');
       }
     } catch (e) {
-      print('Error saving wisata: $e');
-      return null;
+      print('Error saving event: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to save wisata')),
+      );
     }
   }
 

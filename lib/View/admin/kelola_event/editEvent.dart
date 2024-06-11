@@ -64,13 +64,23 @@ class _EditEventState extends State<EditEvent> {
       );
 
       if (response.statusCode == 200) {
-        return json.decode(response.body);
+        var jsonResponse = json.decode(response.body);
+        print('Success: $jsonResponse');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Wisata update successfully!')),
+        );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => NavAdmin()),
+        );
       } else {
-        throw Exception('Failed to update data wisata');
+        throw Exception('Failed to update data WISATA');
       }
     } catch (e) {
-      print('Error updating wisata: $e');
-      return null;
+      print('Error saving event: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to update wisata')),
+      );
     }
   }
 

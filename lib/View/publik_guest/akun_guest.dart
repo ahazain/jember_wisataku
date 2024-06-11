@@ -20,7 +20,7 @@ class _AkunPageState extends State<AkunPage> {
   final TextEditingController _emailController =
       TextEditingController(text: 'admin@gmail.com');
   final TextEditingController _passwordController =
-      TextEditingController(text: '12345');
+      TextEditingController(text: '12345678');
   final TextEditingController _registerEmailController =
       TextEditingController();
   final TextEditingController _registerPasswordController =

@@ -50,6 +50,7 @@ class _EditwisataState extends State<Editwisata> {
         );
         return;
       }
+      
 
       final response = await http.put(
         Uri.parse(
@@ -70,14 +71,26 @@ class _EditwisataState extends State<Editwisata> {
         }),
       );
 
-      if (response.statusCode == 200) {
-        return json.decode(response.body);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        var jsonResponse = json.decode(response.body);
+        print('Success: $jsonResponse');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Wisata update successfully!')),
+        );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => NavAdmin()),
+        );
       } else {
-        throw Exception('Failed to update data wisata');
+        print('Failed: ${response.statusCode}');
+        print('Response body: ${response.body}');
+        throw Exception('Failed to update data WISATA');
       }
     } catch (e) {
-      print('Error updating wisata: $e');
-      return null;
+      print('Error saving event: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to update wisata')),
+      );
     }
   }
 

@@ -57,7 +57,7 @@ class _readEventState extends State<readEvent> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => tambah_event(),
+                        builder: (context) => TambahEvent(),
                       ),
                     );
                   },

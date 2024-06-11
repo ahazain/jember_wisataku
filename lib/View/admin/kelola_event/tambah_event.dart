@@ -1,24 +1,23 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:jember_wisataku/NavigasiBar/nav_admin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class tambah_event extends StatefulWidget {
-  const tambah_event({Key? key});
+class TambahEvent extends StatefulWidget {
+  const TambahEvent({Key? key});
 
   @override
-  State<tambah_event> createState() => _tambah_eventState();
+  State<TambahEvent> createState() => _TambahEventState();
 }
 
-class _tambah_eventState extends State<tambah_event> {
+class _TambahEventState extends State<TambahEvent> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _gambarController = TextEditingController();
-  TextEditingController _deskripsiController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _gambarController = TextEditingController();
+  final TextEditingController _deskripsiController = TextEditingController();
 
-  Future saveEvent() async {
+  Future<void> saveEvent() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? accessToken = prefs.getString('access_token');
@@ -46,13 +45,23 @@ class _tambah_eventState extends State<tambah_event> {
       );
 
       if (response.statusCode == 200) {
-        return json.decode(response.body);
+        var jsonResponse = json.decode(response.body);
+        print('Success: $jsonResponse');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Event saved successfully!')),
+        );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => NavAdmin()),
+        );
       } else {
         throw Exception('Failed to save data event');
       }
     } catch (e) {
       print('Error saving event: $e');
-      return null;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to save event')),
+      );
     }
   }
 
@@ -125,19 +134,11 @@ class _tambah_eventState extends State<tambah_event> {
                   ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        saveEvent().then((value) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => NavAdmin(),
-                            ),
-                          );
-                        });
+                        saveEvent();
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      minimumSize:
-                          Size(double.infinity, 48), // Lebar maksimum tombol
+                      minimumSize: Size(double.infinity, 48),
                     ),
                     child: Text('Save'),
                   ),
@@ -147,8 +148,7 @@ class _tambah_eventState extends State<tambah_event> {
                       Navigator.pop(context);
                     },
                     style: ElevatedButton.styleFrom(
-                      minimumSize:
-                          Size(double.infinity, 48), // Lebar maksimum tombol
+                      minimumSize: Size(double.infinity, 48),
                     ),
                     child: Text('Back'),
                   ),
