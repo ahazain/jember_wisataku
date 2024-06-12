@@ -110,7 +110,7 @@ class _EditEventState extends State<EditEvent> {
               TextFormField(
                 controller: _nameController,
                 decoration: InputDecoration(
-                  labelText: "Nama Wisata",
+                  labelText: "Nama Acara Tahunan",
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
