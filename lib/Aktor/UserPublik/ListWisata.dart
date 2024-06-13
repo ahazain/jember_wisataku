@@ -1,15 +1,15 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:jember_wisataku/View/publik_guest/detail_wisata.dart';
+import 'package:jember_wisataku/Aktor/UserPublik/DetailWisata.dart';
 import 'package:jember_wisataku/widget/widget_support.dart';
 
-class HomePage extends StatefulWidget {
+class ListWisata extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _ListWisataState createState() => _ListWisataState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _ListWisataState extends State<ListWisata> {
   List _listdata = [];
   List _fullListData = [];
   TextEditingController _searchController = TextEditingController();

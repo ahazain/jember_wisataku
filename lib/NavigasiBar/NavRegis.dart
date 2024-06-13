@@ -1,32 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:jember_wisataku/View/publik_guest/acara_tahunan.dart';
-import 'package:jember_wisataku/View/publik_guest/detail_AcaraTahunan.dart';
-import 'package:jember_wisataku/View/publik_guest/homepage.dart';
-import 'package:jember_wisataku/View/publik_regis/akun_regis.dart';
+import 'package:jember_wisataku/Aktor/UserPublik/ListEvent.dart';
+import 'package:jember_wisataku/Aktor/UserPublik/ListWisata.dart';
+import 'package:jember_wisataku/Aktor/UserPublik/ProfilRegis.dart';
+
 
 import 'package:jember_wisataku/widget/widget_support.dart';
 
-class nav_regis extends StatefulWidget {
-  const nav_regis({Key? key}) : super(key: key);
+class NavRegis extends StatefulWidget {
+  const NavRegis({Key? key}) : super(key: key);
 
   @override
-  State<nav_regis> createState() => _Button_nonnav_regisState();
+  State<NavRegis> createState() => _Button_nonNavRegisState();
 }
 
-class _Button_nonnav_regisState extends State<nav_regis> {
+class _Button_nonNavRegisState extends State<NavRegis> {
   int currentTabIndex = 0;
 
   late List<Widget> pages;
   late Widget curretPages;
-  late HomePage homapage;
-  late AcaraTahunan acara_tahunan;
-  late akun_regis Akun;
+  late ListWisata homapage;
+  late ListEvent acara_tahunan;
+  late ProfilRegis Akun;
   @override
   void initState() {
-    homapage = HomePage();
-    acara_tahunan = AcaraTahunan();
-    Akun = akun_regis();
+    homapage = ListWisata();
+    acara_tahunan = ListEvent();
+    Akun = ProfilRegis();
     pages = [homapage, acara_tahunan, Akun];
     super.initState();
   }

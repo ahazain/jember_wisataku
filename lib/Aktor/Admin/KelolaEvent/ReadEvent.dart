@@ -1,30 +1,30 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:jember_wisataku/View/admin/akun_admin.dart';
-import 'package:jember_wisataku/View/admin/kelola_event/delete_event.dart';
-import 'package:jember_wisataku/View/admin/kelola_event/editEvent.dart';
-import 'package:jember_wisataku/View/admin/kelola_event/tambah_event.dart';
-import 'package:jember_wisataku/View/admin/kelola_wisata/delete_wisata.dart';
-import 'package:jember_wisataku/View/admin/kelola_wisata/editwisata.dart';
-import 'package:jember_wisataku/NavigasiBar/nav_admin.dart';
-import 'package:jember_wisataku/View/admin/kelola_wisata/tambah_wisata.dart';
+import 'package:jember_wisataku/Aktor/Admin/ProfilAdmin.dart';
+import 'package:jember_wisataku/Aktor/Admin/KelolaEvent/DeleteEvent.dart';
+import 'package:jember_wisataku/Aktor/Admin/KelolaEvent/UpdateEvent.dart';
+import 'package:jember_wisataku/Aktor/Admin/KelolaEvent/CreateEvent.dart';
+import 'package:jember_wisataku/Aktor/Admin/KelolaWisata/DeleteWisata.dart';
+import 'package:jember_wisataku/Aktor/Admin/KelolaWisata/UpdateWisata.dart';
+import 'package:jember_wisataku/NavigasiBar/NavAdmin.dart';
+import 'package:jember_wisataku/Aktor/Admin/KelolaWisata/CreateWisata.dart';
 
-class readEvent extends StatefulWidget {
+class ReadEvent extends StatefulWidget {
   final String title;
 
-  const readEvent({Key? key, required this.title});
+  const ReadEvent({Key? key, required this.title});
 
   @override
-  State<readEvent> createState() => _readEventState();
+  State<ReadEvent> createState() => _ReadEventState();
 }
 
-class _readEventState extends State<readEvent> {
+class _ReadEventState extends State<ReadEvent> {
   int _currentIndex = 0; // Track the current selected index
 
   final List<Widget> _pages = [
-    readEventPageContent(), // Tambahkan const di sini
-    Akun_Admin(), // Tambahkan const di sini
+    ReadEventPageContent(), // Tambahkan const di sini
+    ProfilAdmin(), // Tambahkan const di sini
   ];
 
   final List<String> _titles = ["Jember Wisata", "Profil"]; // Titles for AppBar
@@ -57,7 +57,7 @@ class _readEventState extends State<readEvent> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => TambahEvent(),
+                        builder: (context) => CreateEvent(),
                       ),
                     );
                   },
@@ -72,12 +72,12 @@ class _readEventState extends State<readEvent> {
   }
 }
 
-class readEventPageContent extends StatefulWidget {
+class ReadEventPageContent extends StatefulWidget {
   @override
-  _readEventPageContentState createState() => _readEventPageContentState();
+  _ReadEventPageContentState createState() => _ReadEventPageContentState();
 }
 
-class _readEventPageContentState extends State<readEventPageContent> {
+class _ReadEventPageContentState extends State<ReadEventPageContent> {
   late Future<List<Map<String, dynamic>>> _fetchDataFuture;
 
   @override
@@ -161,7 +161,7 @@ class _readEventPageContentState extends State<readEventPageContent> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => EditEvent(
+                                builder: (context) => UpdateEvent(
                                     wisata: {...item, 'id': item['id']}),
                               ),
                             ).then((updatedWisata) {
@@ -220,7 +220,7 @@ class _readEventPageContentState extends State<readEventPageContent> {
                                   },
                                 );
                                 // Panggil metode deleteWisata
-                                DeleteServiceEvent.deleteWisataEvent(
+                                DeleteEvent.deleteWisataEvent(
                                         item['id'].toString())
                                     .then((success) {
                                   Navigator.of(context)

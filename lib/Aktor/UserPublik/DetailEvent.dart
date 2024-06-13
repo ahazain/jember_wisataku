@@ -3,18 +3,18 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:jember_wisataku/Maps/maps.dart';
-import 'package:jember_wisataku/NavigasiBar/nav_guest.dart';
+import 'package:jember_wisataku/NavigasiBar/NavGuest.dart';
 
-class Detail_Acara extends StatefulWidget {
+class DetailEvent extends StatefulWidget {
   final Map<String, dynamic> attraction;
 
-  const Detail_Acara({Key? key, required this.attraction}) : super(key: key);
+  const DetailEvent({Key? key, required this.attraction}) : super(key: key);
 
   @override
-  State<Detail_Acara> createState() => _Detail_AcaraState();
+  State<DetailEvent> createState() => _DetailEventState();
 }
 
-class _Detail_AcaraState extends State<Detail_Acara> {
+class _DetailEventState extends State<DetailEvent> {
   @override
   Widget build(BuildContext context) {
     final attraction = widget.attraction;

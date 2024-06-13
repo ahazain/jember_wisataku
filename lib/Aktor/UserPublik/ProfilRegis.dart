@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:jember_wisataku/NavigasiBar/nav_guest.dart';
+import 'package:jember_wisataku/NavigasiBar/NavGuest.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class akun_regis extends StatefulWidget {
-  const akun_regis({Key? key}) : super(key: key);
+class ProfilRegis extends StatefulWidget {
+  const ProfilRegis({Key? key}) : super(key: key);
 
   @override
-  State<akun_regis> createState() => _akun_regisState();
+  State<ProfilRegis> createState() => _ProfilRegisState();
 }
 
-class _akun_regisState extends State<akun_regis> {
+class _ProfilRegisState extends State<ProfilRegis> {
   bool _isEditing = false;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -176,7 +176,7 @@ class _akun_regisState extends State<akun_regis> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => nav_guest(),
+              builder: (context) => NavGuest(),
             ),
           );
           print('Logout berhasil: ${response.body}');

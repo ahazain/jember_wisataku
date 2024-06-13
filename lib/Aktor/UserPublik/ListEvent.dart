@@ -1,16 +1,15 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:jember_wisataku/View/publik_guest/detail_AcaraTahunan.dart';
-import 'package:jember_wisataku/View/publik_guest/detail_wisata.dart';
+import 'package:jember_wisataku/Aktor/UserPublik/DetailEvent.dart';
 import 'package:jember_wisataku/widget/widget_support.dart';
 
-class AcaraTahunan extends StatefulWidget {
+class ListEvent extends StatefulWidget {
   @override
-  _AcaraTahunanState createState() => _AcaraTahunanState();
+  _ListEventState createState() => _ListEventState();
 }
 
-class _AcaraTahunanState extends State<AcaraTahunan> {
+class _ListEventState extends State<ListEvent> {
   List _listdata = [];
   List _fullListData = [];
   TextEditingController _searchController = TextEditingController();
@@ -141,7 +140,7 @@ class _AcaraTahunanState extends State<AcaraTahunan> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Detail_Acara(attraction: attraction),
+                    builder: (context) => DetailEvent(attraction: attraction),
                   ),
                 );
               },

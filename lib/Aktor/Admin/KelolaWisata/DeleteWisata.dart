@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class DeleteService {
+class DeleteWisata {
   static Future<bool> deleteWisata(String id) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();

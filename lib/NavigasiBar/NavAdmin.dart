@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:jember_wisataku/View/admin/akun_admin.dart';
-import 'package:jember_wisataku/View/admin/kelola_event/read_event.dart';
-import 'package:jember_wisataku/View/admin/kelola_wisata/read_wisata.dart';
+import 'package:jember_wisataku/Aktor/Admin/KelolaEvent/ReadEvent.dart';
+import 'package:jember_wisataku/Aktor/Admin/KelolaWisata/ReadWisata.dart';
+import 'package:jember_wisataku/Aktor/Admin/ProfilAdmin.dart';
 import 'package:jember_wisataku/widget/widget_support.dart';
 
 class NavAdmin extends StatefulWidget {
@@ -15,18 +15,18 @@ class _NavAdminState extends State<NavAdmin> {
   int currentTabIndex = 0;
 
   late List<Widget> pages;
-  late readWisata homePage;
-  late readEvent event;
-  late Akun_Admin akunPage;
+  late ReadWisata homePage;
+  late ReadEvent event;
+  late ProfilAdmin akunPage;
 
   @override
   void initState() {
     super.initState();
-    homePage = readWisata(
+    homePage = ReadWisata(
       title: 'homeadmin',
     );
-    event = readEvent(title: 'event');
-    akunPage = Akun_Admin();
+    event = ReadEvent(title: 'event');
+    akunPage = ProfilAdmin();
     pages = [homePage, event, akunPage];
   }
 

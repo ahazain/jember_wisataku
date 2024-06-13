@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:jember_wisataku/NavigasiBar/nav_guest.dart';
-import 'package:jember_wisataku/widget/widget_support.dart';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:jember_wisataku/NavigasiBar/NavGuest.dart';
+import 'package:jember_wisataku/widget/widget_support.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -18,7 +19,7 @@ class _SplashState extends State<Splash> {
     Timer(Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => nav_guest()),
+        MaterialPageRoute(builder: (context) => NavGuest()),
       );
     });
   }
@@ -54,3 +55,9 @@ class _SplashState extends State<Splash> {
     );
   }
 }
+
+
+
+//MENAMPILKAN GAMBAR DENGAN IMAGE.ASSET
+//MENAMBAHKAN JARAK DENGAN SIZEBOX
+//MENAMPILKAN TEKS ANIMASI DENGAN ANIMATEDTEXTKID

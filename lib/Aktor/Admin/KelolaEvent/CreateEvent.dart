@@ -1,17 +1,17 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:jember_wisataku/NavigasiBar/nav_admin.dart';
+import 'package:jember_wisataku/NavigasiBar/NavAdmin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class TambahEvent extends StatefulWidget {
-  const TambahEvent({Key? key});
+class CreateEvent extends StatefulWidget {
+  const CreateEvent({Key? key});
 
   @override
-  State<TambahEvent> createState() => _TambahEventState();
+  State<CreateEvent> createState() => _CreateEventState();
 }
 
-class _TambahEventState extends State<TambahEvent> {
+class _CreateEventState extends State<CreateEvent> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _gambarController = TextEditingController();

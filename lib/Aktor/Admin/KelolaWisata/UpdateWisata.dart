@@ -2,22 +2,21 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
-import 'package:jember_wisataku/View/admin/kelola_wisata/read_wisata.dart';
-import 'package:jember_wisataku/NavigasiBar/nav_admin.dart';
-import 'package:jember_wisataku/View/publik_guest/homepage.dart';
-import 'package:jember_wisataku/NavigasiBar/nav_guest.dart';
+import 'package:jember_wisataku/Aktor/Admin/KelolaWisata/ReadWisata.dart';
+import 'package:jember_wisataku/NavigasiBar/NavAdmin.dart';
+import 'package:jember_wisataku/NavigasiBar/NavGuest.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Editwisata extends StatefulWidget {
+class UpdateWisata extends StatefulWidget {
   final Map<String, dynamic> wisata;
 
-  const Editwisata({Key? key, required this.wisata}) : super(key: key);
+  const UpdateWisata({Key? key, required this.wisata}) : super(key: key);
 
   @override
-  State<Editwisata> createState() => _EditwisataState();
+  State<UpdateWisata> createState() => _UpdateWisataState();
 }
 
-class _EditwisataState extends State<Editwisata> {
+class _UpdateWisataState extends State<UpdateWisata> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController _nameController = TextEditingController();
   TextEditingController _gambarController = TextEditingController();

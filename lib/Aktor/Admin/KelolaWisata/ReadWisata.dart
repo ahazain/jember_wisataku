@@ -1,27 +1,27 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:jember_wisataku/View/admin/akun_admin.dart';
-import 'package:jember_wisataku/View/admin/kelola_wisata/delete_wisata.dart';
-import 'package:jember_wisataku/View/admin/kelola_wisata/editwisata.dart';
-import 'package:jember_wisataku/NavigasiBar/nav_admin.dart';
-import 'package:jember_wisataku/View/admin/kelola_wisata/tambah_wisata.dart';
+import 'package:jember_wisataku/Aktor/Admin/ProfilAdmin.dart';
+import 'package:jember_wisataku/Aktor/Admin/KelolaWisata/DeleteWisata.dart';
+import 'package:jember_wisataku/Aktor/Admin/KelolaWisata/UpdateWisata.dart';
+import 'package:jember_wisataku/NavigasiBar/NavAdmin.dart';
+import 'package:jember_wisataku/Aktor/Admin/KelolaWisata/CreateWisata.dart';
 
-class readWisata extends StatefulWidget {
+class ReadWisata extends StatefulWidget {
   final String title;
 
-  const readWisata({Key? key, required this.title});
+  const ReadWisata({Key? key, required this.title});
 
   @override
-  State<readWisata> createState() => _readWisataState();
+  State<ReadWisata> createState() => _readWisataState();
 }
 
-class _readWisataState extends State<readWisata> {
+class _readWisataState extends State<ReadWisata> {
   int _currentIndex = 0; // Track the current selected index
 
   final List<Widget> _pages = [
     readWisataPageContent(), // Tambahkan const di sini
-    Akun_Admin(), // Tambahkan const di sini
+    ProfilAdmin(), // Tambahkan const di sini
   ];
 
   final List<String> _titles = ["Jember Wisata", "Profil"]; // Titles for AppBar
@@ -54,7 +54,7 @@ class _readWisataState extends State<readWisata> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => tambah_wisata(),
+                        builder: (context) => CreateWisata(),
                       ),
                     );
                   },
@@ -160,7 +160,7 @@ class _readWisataPageContentState extends State<readWisataPageContent> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => Editwisata(
+                                builder: (context) => UpdateWisata(
                                     wisata: {...item, 'id': item['id']}),
                               ),
                             ).then((updatedWisata) {
@@ -220,7 +220,7 @@ class _readWisataPageContentState extends State<readWisataPageContent> {
                                 );
 
                                 // Panggil metode deleteWisata
-                                DeleteService.deleteWisata(
+                                DeleteWisata.deleteWisata(
                                         item['id'].toString())
                                     .then((success) {
                                   Navigator.of(context)

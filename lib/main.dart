@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jember_wisataku/Maps/maps.dart';
-import 'package:jember_wisataku/View/admin/kelola_wisata/read_wisata.dart';
-import 'package:jember_wisataku/NavigasiBar/nav_admin.dart';
-import 'package:jember_wisataku/View/publik_guest/akun_guest.dart';
-import 'package:jember_wisataku/NavigasiBar/nav_guest.dart';
-import 'package:jember_wisataku/View/publik_guest/splash.dart';
-import 'package:jember_wisataku/NavigasiBar/nav_regis.dart';
+import 'package:jember_wisataku/NavigasiBar/NavGuest.dart';
+import 'package:jember_wisataku/Splash.dart';
 
 void main() {
   runApp(const MyApp());

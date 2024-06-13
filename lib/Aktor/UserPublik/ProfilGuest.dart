@@ -1,26 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:jember_wisataku/View/admin/kelola_wisata/read_wisata.dart';
-import 'package:jember_wisataku/NavigasiBar/nav_admin.dart';
-import 'package:jember_wisataku/View/publik_guest/homepage.dart';
-
-import 'package:jember_wisataku/NavigasiBar/nav_regis.dart';
+import 'package:jember_wisataku/Aktor/Admin/KelolaWisata/ReadWisata.dart';
+import 'package:jember_wisataku/NavigasiBar/NavAdmin.dart';
+import 'package:jember_wisataku/NavigasiBar/NavRegis.dart';
 import 'package:jember_wisataku/widget/widget_support.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
-class AkunPage extends StatefulWidget {
-  const AkunPage({super.key});
+class ProfilGuest extends StatefulWidget {
+  const ProfilGuest({super.key});
 
   @override
-  State<AkunPage> createState() => _AkunPageState();
+  State<ProfilGuest> createState() => _Profil_GuestState();
 }
 
-class _AkunPageState extends State<AkunPage> {
-  final TextEditingController _emailController =
-      TextEditingController(text: 'admin@gmail.com');
-  final TextEditingController _passwordController =
-      TextEditingController(text: '12345678');
+class _Profil_GuestState extends State<ProfilGuest> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _registerEmailController =
       TextEditingController();
   final TextEditingController _registerPasswordController =
@@ -296,7 +292,7 @@ class _AkunPageState extends State<AkunPage> {
                     } else if (_userType == 'publik') {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => nav_regis()),
+                        MaterialPageRoute(builder: (context) => NavRegis()),
                       );
                     }
                   },
